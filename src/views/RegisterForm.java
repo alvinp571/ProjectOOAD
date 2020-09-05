@@ -1,8 +1,8 @@
 package views;
 
 import components.LabelTitle;
-import controllers.AuthController;
 
+import controllers.AuthController;
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;

@@ -10,7 +10,12 @@ public class UserHandler {
 	
 	public User insert(HashMap<String, String> inputs) {
 		Session session = new Session();
-		String roles = session.showRoleName();
+		String roles;
+		if(Session.user == null) {
+			roles = "Membership";
+		}else {
+			roles = session.showRoleName();			
+		}
 		
 		if(roles.equals("Manager")||roles.equals("Human Capital")) {
 			roles = "Purchasing";
