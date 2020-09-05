@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.BorderLayout;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.util.List;
@@ -12,8 +13,9 @@ import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 
 import components.LabelTitle;
+import controllers.BookHandler;
 import controllers.GenreHandler;
-import models.Genre;
+import models.Book;
 import views.base.BaseView;
 
 public class ViewBookForm extends BaseView{
@@ -21,7 +23,7 @@ public class ViewBookForm extends BaseView{
 
 	  private LabelTitle title;
 	  private JButton btnCreateGenre,btnClose;
-	  private JTextArea txtShowEmployee1,txtShowEmployee2;
+	  private JTextArea txtId,txtGenreId,txtTitle,txtIsbn,txtQuantity;
 
 	  public ViewBookForm() {
 	    super("Book List", 350, 225);
@@ -32,34 +34,50 @@ public class ViewBookForm extends BaseView{
 	    title = new LabelTitle("Book List");
 	    btnCreateGenre = new JButton("Create Genre");
 	    btnClose = new JButton("Close");
-	    txtShowEmployee1 = new JTextArea("");
-	    txtShowEmployee2 = new JTextArea("");
+	    txtId = new JTextArea("");
+	    txtGenreId = new JTextArea("");
+	    txtTitle = new JTextArea("");
+	    txtIsbn = new JTextArea("");
+	    txtQuantity = new JTextArea("");
 	    
-	    GenreHandler genreHandler = new GenreHandler();
-	    List <Genre> theGenres = genreHandler.getAll();
+	    BookHandler bookHandler = new BookHandler();
+	    List<Book> theBooks = bookHandler.getAll();
 	    String id = "";
-	    String type = "";
-	    for (Genre genre : theGenres) {
-			id = id + genre.getId() + "\n";
-			type = type + genre.getType() + "\n";
+	    String genreId = "";
+	    String title = "";
+	    String isbn = "";
+	    String quantity = "";
+	    for (Book book : theBooks) {
+			id = id + book.getId() + "\n";
+			genreId = genreId + book.getGenre_id()+ "\n";
+			title = title + book.getTitle() + "\n";
+			isbn = isbn + book.getIsbn() + "\n";
+			quantity = quantity + book.getQuantity().toString() +  "\n";
 		}
 	    
-	    txtShowEmployee1.setText(id);
-	    txtShowEmployee2.setText(type);;
-	   
+	    txtId.setText(id);
+	    txtGenreId.setText(genreId);
+	    txtTitle.setText(title);
+	    txtIsbn.setText(isbn);
+	    txtQuantity.setText(quantity);
+	    
 	  }
 
 	  @Override
 	  public void addComponent() {
 	    
-	    JPanel pnlFormInput1 = new JPanel(new BorderLayout(4,4));
-	    pnlFormInput1.add(txtShowEmployee1,BorderLayout.WEST);
-	    pnlFormInput1.add(txtShowEmployee2,BorderLayout.CENTER);
+	    JPanel pnlFormInput1 = new JPanel(new GridLayout(1,5,2,2));
+	    pnlFormInput1.add(txtId);
+	    pnlFormInput1.add(txtGenreId);
+	    pnlFormInput1.add(txtTitle);
+	    pnlFormInput1.add(txtIsbn);
+	    pnlFormInput1.add(txtQuantity);
+	    
 
 	    JPanel pnlButton = new JPanel(new GridLayout(1, 1, 8, 8));
 //	    pnlButton.add(btnLogin);
-	    pnlButton.add(btnCreateGenre);
-//	    pnlButton.add(btnFired);
+//	    pnlButton.add(btnCreateGenre);
+	    pnlButton.add(btnClose);
 
 	    JPanel panel = new JPanel(new BorderLayout(8, 8));
 	    panel.add(title.getLabel(), BorderLayout.NORTH);

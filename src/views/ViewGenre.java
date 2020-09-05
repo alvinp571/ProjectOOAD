@@ -56,10 +56,10 @@ public class ViewGenre extends BaseView{
 	    pnlFormInput1.add(txtShowEmployee1,BorderLayout.WEST);
 	    pnlFormInput1.add(txtShowEmployee2,BorderLayout.CENTER);
 
-	    JPanel pnlButton = new JPanel(new GridLayout(1, 1, 8, 8));
+	    JPanel pnlButton = new JPanel(new GridLayout(2, 1, 8, 8));
 //	    pnlButton.add(btnLogin);
 	    pnlButton.add(btnCreateGenre);
-//	    pnlButton.add(btnFired);
+	    pnlButton.add(btnClose);
 
 	    JPanel panel = new JPanel(new BorderLayout(8, 8));
 	    panel.add(title.getLabel(), BorderLayout.NORTH);

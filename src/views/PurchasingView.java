@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import components.LabelTitle;
+import controllers.BookHandler;
 import controllers.GenreHandler;
 import views.base.BaseView;
 
@@ -78,6 +79,16 @@ public class PurchasingView extends BaseView{
 				}
 				
 			);
-		
+		btnViewBook.addActionListener(
+				new AbstractAction() {
+					private static final long serialVersionUID = 1L;
+					
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						new BookHandler().showViewBookForm().showForm();
+					}
+				}
+			);
 	}
 }

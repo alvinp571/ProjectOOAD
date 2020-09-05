@@ -1,5 +1,9 @@
 package models;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import mySQLConnector.Connect;
@@ -31,7 +35,25 @@ public class Book {
 		return this;
 	}
 
-	
+	public List<Book> all(){
+		String query = String.format("SELECT * FROM books");
+		ResultSet rs = connect.executeQuery(query);
+		List<Book> theBooks = new ArrayList<Book>();
+		try {
+			while(rs.next()) {
+				Book book = new Book();
+				book.id = rs.getString(1);
+				book.genre_id = rs.getString(2);
+				book.title = rs.getString(3);
+				book.isbn = rs.getString(4);
+				book.quantity = rs.getInt(5);
+				theBooks.add(book);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return theBooks;
+	}
 	
 	public String getId() {
 		return id;

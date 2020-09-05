@@ -14,7 +14,7 @@ public class UserHandler {
 		if(Session.user == null) {
 			roles = "Membership";
 		}else {
-			roles = session.showRoleName();			
+			roles = session.showRoleName();	
 		}
 		
 		if(roles.equals("Manager")||roles.equals("Human Capital")) {
