@@ -8,7 +8,7 @@ import java.util.List;
 import mySQLConnector.Connect;
 
 public class Member {
-	private String user_id,address;
+	private String user_id,address,member_since;
 	
 	private Connect connect = Connect.getInstance();
 	
@@ -25,12 +25,13 @@ public class Member {
 				System.out.println("The members is still empty !");
 			}
 			else {
-				while(rs.next()) {
+				do {
 					Member member = new Member();
 					member.user_id = rs.getString(1);
 					member.address = rs.getString(2);
+					member.member_since = rs.getString(3);
 					theMembers.add(member);
-				}
+				} while (rs.next());
 			}	
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -67,5 +68,13 @@ public class Member {
 		this.address = address;
 	}
 
+	public String getMember_since() {
+		return member_since;
+	}
+
+	public void setMember_since(String member_since) {
+		this.member_since = member_since;
+	}
+	
 	
 }

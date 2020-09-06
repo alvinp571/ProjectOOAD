@@ -5,10 +5,10 @@ import java.util.List;
 import components.Message;
 import models.Book;
 import views.ViewBookForm;
-import views.base.IView;
+import views.base.BaseInternalView;
 
 public class BookHandler {
-	public IView showViewBookForm() {
+	public BaseInternalView showViewBookForm() {
 		return new ViewBookForm();
 	}
 	

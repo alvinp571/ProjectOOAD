@@ -54,10 +54,10 @@ public class Employee {
 				System.out.println("The employee is still empty !");
 			}
 			else {
-				while(rs.next()) {
+				do {
 					Employee employee = new Employee(rs);
 					theEmployees.add(employee);
-				}
+				} while (rs.next());
 			}	
 		} catch (SQLException e) {
 			e.printStackTrace();

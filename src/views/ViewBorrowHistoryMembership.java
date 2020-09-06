@@ -1,114 +1,13 @@
-//package views;
-//
-//import java.awt.BorderLayout;
-//import java.awt.GridLayout;
-//import java.awt.event.ActionEvent;
-//import java.util.List;
-//
-//import javax.swing.AbstractAction;
-//import javax.swing.JButton;
-//import javax.swing.JPanel;
-//import javax.swing.JTextArea;
-//import javax.swing.border.EmptyBorder;
-//
-//import components.LabelTitle;
-//import controllers.GenreHandler;
-//import models.Genre;
-//import views.base.BaseView;
-//
-//public class ViewGenre extends BaseView{
-//	private static final long serialVersionUID = 1L;
-//
-//	  private LabelTitle title;
-//	  private JButton btnCreateGenre,btnClose;
-//	  private JTextArea txtShowEmployee1,txtShowEmployee2;
-//
-//	  public ViewGenre() {
-//	    super("Genre List", 350, 225);
-//	  }
-//
-//	  @Override
-//	  public void initializeComponent() {
-//	    title = new LabelTitle("View Genre");
-//	    btnCreateGenre = new JButton("Create Genre");
-//	    btnClose = new JButton("Close");
-//	    txtShowEmployee1 = new JTextArea("");
-//	    txtShowEmployee2 = new JTextArea("");
-//	    
-//	    GenreHandler genreHandler = new GenreHandler();
-//	    List <Genre> theGenres = genreHandler.getAll();
-//	    String id = "";
-//	    String type = "";
-//	    for (Genre genre : theGenres) {
-//			id = id + genre.getId() + "\n";
-//			type = type + genre.getType() + "\n";
-//		}
-//	    
-//	    txtShowEmployee1.setText(id);
-//	    txtShowEmployee2.setText(type);;
-//	   
-//	  }
-//
-//	  @Override
-//	  public void addComponent() {
-//	    
-//	    JPanel pnlFormInput1 = new JPanel(new BorderLayout(4,4));
-//	    pnlFormInput1.add(txtShowEmployee1,BorderLayout.WEST);
-//	    pnlFormInput1.add(txtShowEmployee2,BorderLayout.CENTER);
-//
-//	    JPanel pnlButton = new JPanel(new GridLayout(2, 1, 8, 8));
-////	    pnlButton.add(btnLogin);
-//	    pnlButton.add(btnCreateGenre);
-//	    pnlButton.add(btnClose);
-//
-//	    JPanel panel = new JPanel(new BorderLayout(8, 8));
-//	    panel.add(title.getLabel(), BorderLayout.NORTH);
-//	    panel.add(pnlFormInput1, BorderLayout.CENTER);
-//	    panel.add(pnlButton, BorderLayout.SOUTH);
-//	    panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-//
-//	    add(panel);
-//	  }
-//
-//	  @Override
-//	  public void addListener() {
-//	    btnCreateGenre.addActionListener(
-//	      new AbstractAction() {
-//	        /**
-//	         *
-//	         */
-//	        private static final long serialVersionUID = 1L;
-//
-//	        @Override
-//	        public void actionPerformed(ActionEvent e) {
-//	        	new GenreHandler().showCreateGenre().showForm();
-//	        }
-//	      }
-//	    );
-//	    btnClose.addActionListener(
-//	  	      new AbstractAction() {
-//	  	        /**
-//	  	         *
-//	  	         */
-//	  	        private static final long serialVersionUID = 1L;
-//
-//	  	        @Override
-//	  	        public void actionPerformed(ActionEvent e) {
-//	  	        	dispose();
-//	  	        }
-//	  	      }
-//	  	    );
-//	}
-//}
-
 package views;
 
 import components.ButtonInternalClose;
 import components.LabelTitle;
 import components.PanelForm;
 import components.Table;
-import controllers.GenreHandler;
-import models.Genre;
+import controllers.BookHandler;
+import controllers.EmployeeHandler;
+import models.Book;
+import models.Employee;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -133,7 +32,7 @@ import views.base.BaseInternalView;
  *
  * @author kevinsudut <kevinsuryaw@gmail.com>
  */
-public final class ViewGenre extends BaseInternalView {
+public final class ViewBorrowHistoryMembership extends BaseInternalView {
   /**
    *
    */
@@ -142,7 +41,7 @@ public final class ViewGenre extends BaseInternalView {
   private LabelTitle title;
   private Table table;
   private JTabbedPane tabbedPane;
-  private PanelForm panelAdd, panelAccept, panelFired;
+  private PanelForm panelFilter, panelReturn, panelFired;
   private JLabel lblInsertCode, lblInsertName, lblInsertCredit;
   private JLabel lblUpdateCode, lblUpdateName, lblUpdateCredit;
   private JLabel lblDeleteCode;
@@ -154,32 +53,38 @@ public final class ViewGenre extends BaseInternalView {
   private JButton btnInsert, btnUpdate, btnDelete;
   private ButtonInternalClose close;
 
-  public ViewGenre() {
-    super("View Genre", 1000, 350);
+  public ViewBorrowHistoryMembership() {
+    super("View Borrow History", 1000, 350);
   }
 
   @Override
   public void initializeComponent() {
-    Vector<Object> tHeader = new Vector<>();
-    tHeader.add("Id");
-    tHeader.add("Type");
-    
-    Vector<Vector<Object>> tRows = new Vector<>();
-    
-    GenreHandler genreHandler = new GenreHandler();
-    List<Genre> theGenre = genreHandler.getAll();
-    
-    Vector<Object> forEachRow;
-    for (Genre g : theGenre) {
-    	forEachRow = new Vector<>();
-		forEachRow.add(g.getId());
-		forEachRow.add(g.getType());
-		tRows.add(forEachRow);
-	}
+	  Vector<Object> tHeader = new Vector<>();
+	    tHeader.add("Id");
+	    tHeader.add("Genre");
+	    tHeader.add("Title");
+	    tHeader.add("ISBN");
+	    tHeader.add("Quantity");
+	    
+	    Vector<Vector<Object>> tRows = new Vector<>();
+	    
+	    BookHandler bookHandler = new BookHandler();
+	    List<Book> theBooks = bookHandler.getAll();
+	    
+	    Vector<Object> forEachRow;
+	    for (Book e : theBooks) {
+	    	forEachRow = new Vector<>();
+			forEachRow.add(e.getId());
+			forEachRow.add(e.getGenre_id());
+			forEachRow.add(e.getTitle());
+			forEachRow.add(e.getIsbn());
+			forEachRow.add(e.getQuantity());
+			tRows.add(forEachRow);
+		}
     
     table = new Table(tHeader, tRows);
 
-    title = new LabelTitle("Genres");
+    title = new LabelTitle("Borrow History");
 
     tabbedPane = new JTabbedPane();
 
@@ -213,7 +118,7 @@ public final class ViewGenre extends BaseInternalView {
       new Component[] { txtInsertCode, txtInsertName, cbInsertCredit },
     };
 
-    panelAdd = new PanelForm(insert, btnInsert, new Dimension(350, 350));
+    panelFilter = new PanelForm(insert, btnInsert, new Dimension(350, 350));
 
     /**
      * Initialize Component for Update Form
@@ -248,7 +153,7 @@ public final class ViewGenre extends BaseInternalView {
       new Component[] { lblSelectUpdateCode, txtUpdateName, cbUpdateCredit },
     };
 
-    panelAccept = new PanelForm(update, btnUpdate, new Dimension(350, 350));
+    panelReturn = new PanelForm(update, btnUpdate, new Dimension(350, 350));
 
     /**
      * Initialize Component for Delete Form
@@ -265,24 +170,27 @@ public final class ViewGenre extends BaseInternalView {
     };
 
     panelFired = new PanelForm(delete, btnDelete, new Dimension(350, 350));
-
+    
     close = new ButtonInternalClose();
   }
 
   @Override
   public void addComponent() {
-    tabbedPane.add("Add Genre", panelAdd.getPanel());
-//    tabbedPane.add("Accept Employee", panelAccept.getPanel());
+    tabbedPane.add("Filter by Month and Year", panelFilter.getPanel());
+    tabbedPane.add("Return Book", panelReturn.getPanel());
 //    tabbedPane.add("Fired Employee", panelFired.getPanel());
 
     JPanel pnlCenter = new JPanel(new BorderLayout(8, 8));
     pnlCenter.add(table.getScrollPane(), BorderLayout.CENTER);
     pnlCenter.add(tabbedPane, BorderLayout.EAST);
+    
+    JPanel pnlSouth = new JPanel(new BorderLayout(4, 4));
+    pnlSouth.add(close.getButton(), BorderLayout.SOUTH);
 
     JPanel panel = new JPanel(new BorderLayout(8, 8));
     panel.add(title.getLabel(), BorderLayout.NORTH);
     panel.add(pnlCenter, BorderLayout.CENTER);
-    panel.add(close.getButton(), BorderLayout.SOUTH);
+    panel.add(pnlSouth, BorderLayout.SOUTH);
     panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
     add(panel);

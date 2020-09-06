@@ -2,13 +2,12 @@ package controllers;
 
 import java.util.List;
 
-
 import models.Member;
 import views.ViewMembership;
-import views.base.IView;
+import views.base.BaseInternalView;
 
 public class MemberHandler {
-	public IView showMembershipForm() {
+	public BaseInternalView showMembershipForm() {
 		return new ViewMembership();
 	}
 	

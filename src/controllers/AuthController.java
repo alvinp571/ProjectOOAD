@@ -10,6 +10,7 @@ import helper.Session;
 import models.Member;
 import models.Role;
 import models.User;
+import views.AdministratorView;
 import views.HumanCapitalView;
 import views.LoginForm;
 import views.ManagerView;
@@ -47,7 +48,7 @@ public class AuthController {
 				if(role2.getName().equals("Manager")) {
 					return new ManagerView();
 				}else if(role2.getName().equals("Administrator")) {
-					return new ManagerView();
+					return new AdministratorView();
 				}else if(role2.getName().equals("Human Capital")) {
 					return new HumanCapitalView();
 				}else if(role2.getName().equals("Membership")) {

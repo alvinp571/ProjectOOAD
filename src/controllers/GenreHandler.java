@@ -4,11 +4,11 @@ import java.util.HashMap;
 
 import java.util.List;
 
-
 import components.Message;
 import models.Genre;
 import views.CreateGenre;
 import views.ViewGenre;
+import views.base.BaseInternalView;
 import views.base.IView;
 
 public class GenreHandler {
@@ -21,7 +21,7 @@ public class GenreHandler {
 		return theGenres;
 	}
 	
-	public IView showGenre() {
+	public BaseInternalView showGenre() {
 		return new ViewGenre();
 	}
 	
