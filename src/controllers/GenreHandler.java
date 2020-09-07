@@ -12,6 +12,17 @@ import views.base.BaseInternalView;
 import views.base.IView;
 
 public class GenreHandler {
+	
+	private Genre genre = new Genre();
+	
+	public BaseInternalView showGenre() {
+		return new ViewGenre();
+	}
+	
+	public IView showCreateGenre() {
+		return new CreateGenre();
+	}
+	
 	public List<Genre> getAll(){
 		Genre genre = new Genre();
 		List<Genre> theGenres = genre.all();
@@ -21,12 +32,8 @@ public class GenreHandler {
 		return theGenres;
 	}
 	
-	public BaseInternalView showGenre() {
-		return new ViewGenre();
-	}
-	
-	public IView showCreateGenre() {
-		return new CreateGenre();
+	public Genre getByType(String type) {
+		return genre.getByType(type);
 	}
 	
 	public Genre insert(HashMap<String, String> inputs) {

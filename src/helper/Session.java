@@ -9,7 +9,7 @@ public class Session {
 
 	public static User user;
 	
-	public String showRoleName() {
+	public static String showRoleName() {
 		Role role = new Role();
 		List<Role> theRoles = role.all();
 		for (Role role2 : theRoles) {

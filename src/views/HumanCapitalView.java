@@ -95,6 +95,7 @@
 package views;
 
 import java.awt.Graphics;
+
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -104,6 +105,8 @@ import javax.swing.JDesktopPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
+import controllers.AuthController;
 import views.base.BaseView;
 
 /**
@@ -122,7 +125,7 @@ public final class HumanCapitalView extends BaseView {
   private JMenuItem miLogout, miViewEmployees;
   private JDesktopPane desktopPane;
   
-  private ViewEmployeeHumanCapital viewEmployeeHumanCapital;
+  private ViewEmployee viewEmployee;
 
   public HumanCapitalView() {
     super("Human and Resource Staff", Boolean.TRUE);
@@ -184,8 +187,8 @@ public final class HumanCapitalView extends BaseView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          // TODO Auto-generated method stub
-
+        	dispose();
+        	new AuthController().showLoginForm().showForm();
         }
       }
     );
@@ -199,10 +202,10 @@ public final class HumanCapitalView extends BaseView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-        	if(viewEmployeeHumanCapital == null || viewEmployeeHumanCapital.isClosed()) {
-        		viewEmployeeHumanCapital = new ViewEmployeeHumanCapital();
-        		desktopPane.add(viewEmployeeHumanCapital);
-        		viewEmployeeHumanCapital.showForm();
+        	if(viewEmployee == null || viewEmployee.isClosed()) {
+        		viewEmployee = new ViewEmployee();
+        		desktopPane.add(viewEmployee);
+        		viewEmployee.showForm();
         	}
         
         }

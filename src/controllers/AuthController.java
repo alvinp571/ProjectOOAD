@@ -2,13 +2,12 @@ package controllers;
 
 
 import java.util.HashMap;
-import java.util.List;
+
 import java.util.Set;
 
 import components.Message;
 import helper.Session;
 import models.Member;
-import models.Role;
 import models.User;
 import views.AdministratorView;
 import views.HumanCapitalView;
@@ -40,23 +39,17 @@ public class AuthController {
 	}
 	
 	public IView showWhichForm(String username) {
-		User user = new User().getbyUserName(username);
-		Role role = new Role();
-		List<Role> theRoles = role.all();
-		for (Role role2 : theRoles) {
-			if(role2.getId().equals(user.getRoleId())) {
-				if(role2.getName().equals("Manager")) {
-					return new ManagerView();
-				}else if(role2.getName().equals("Administrator")) {
-					return new AdministratorView();
-				}else if(role2.getName().equals("Human Capital")) {
-					return new HumanCapitalView();
-				}else if(role2.getName().equals("Membership")) {
-					return new MembershipView();
-				}else if(role2.getName().equals("Purchasing")) {
-					return new PurchasingView();
-				}
-			}
+		String roles = Session.showRoleName();
+		if(roles.equals("Manager")) {
+			return new ManagerView();
+		}else if(roles.equals("Adminstrator")) {
+			return new AdministratorView();
+		}else if(roles.equals("Human Capital")) {
+			return new HumanCapitalView();
+		}else if(roles.equals("Membership")) {
+			return new MembershipView();
+		}else if(roles.equals("Purchasing")) {
+			return new PurchasingView();
 		}
 		System.out.println("Login gagal");
 		return showLoginForm();

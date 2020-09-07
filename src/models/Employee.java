@@ -41,24 +41,20 @@ public class Employee {
 		return this;
 	}
 	
-//	public Employee update() {
-//		
-//	}
-//	
+	public Employee update() {
+		String query = String.format("UPDATE employees SET status = '%s' WHERE user_id = '%s'",status,id);
+		int result = connect.executeUpdate(query);
+		return (result==1)?this:null;
+	}
+	
 	public List<Employee> all(){
 		String query = String.format("SELECT * FROM employees");
 		ResultSet rs = connect.executeQuery(query);
 		List<Employee> theEmployees = new ArrayList<Employee>();
 		try {
-			if(!rs.next()) {
-				System.out.println("The employee is still empty !");
+			while(rs.next()) {
+				theEmployees.add(new Employee(rs));
 			}
-			else {
-				do {
-					Employee employee = new Employee(rs);
-					theEmployees.add(employee);
-				} while (rs.next());
-			}	
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -71,8 +67,7 @@ public class Employee {
 		ResultSet rs = connect.executeQuery(query);
 		try {
 			if(rs.next()) {
-				Employee employee = new Employee(rs);
-				return employee;
+				return new Employee(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

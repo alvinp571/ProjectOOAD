@@ -9,17 +9,19 @@ import components.Message;
 import models.Employee;
 import models.User;
 import views.CreateEmployee;
-import views.ViewEmployeeManager;
+import views.ViewEmployee;
 import views.base.IView;
 
 public class EmployeeHandler {
+	
+	Employee employee = new Employee();
 	
 	public IView showCreateEmployeeForm() {
 		return new CreateEmployee();
 	}
 	
 	public IView showViewEmployeeForm() {
-		return new ViewEmployeeManager();
+		return new ViewEmployee();
 	}
 	
 	public Boolean testSalary(String salary) {
@@ -37,30 +39,57 @@ public class EmployeeHandler {
 		return theEmployees;
 	}
 	
+	public Employee findById(String id) {
+		return employee.find(id);
+	}
+	
+	public Employee insert(HashMap<String,String>inputs) {
+		UserHandler userhandler = new UserHandler();
+		User user = userhandler.insert(inputs);
+		if(user==null) {
+			return null;
+		}
+		int salary = 0;
+		try {
+			salary = Integer.parseInt(inputs.get("salary"));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		}
+		if(findById(user.getId())!=null) {
+			Message.error("Employee already exist !");
+			return null;
+		}		
+		Employee employee = new Employee(user.getId(),inputs.get("status"),salary).insert();
+		return employee;
+	}
+	
+	public Employee acceptEmployee(String id) {
+		Employee e = employee.find(id);
+		if(e.getStatus().equals("Pending")) {
+			e.setStatus("Active");
+			e = e.update();
+			return e;
+		}
+		return null;
+	}
+	
+	public Employee firedEmployee(String id) {
+		Employee e = employee.find(id);
+		if(e.getStatus().equals("Active")) {
+			e.setStatus("Fired");
+			e = e.update();
+			return e;
+		}
+		return null;
+	}
 	
 	public Employee createWithActiveStatus(HashMap<String, String> inputs) {
 		if(validate(inputs)) {
 			//Generate password
-//			String password = inputs.get("password");
-//			password = generatePassword(password);
-//			
-//			inputs.replace("password",password);
-			
-			//insert to database
-			UserHandler userhandler = new UserHandler();
-			User user = userhandler.insert(inputs);
-			if(user==null) {
-				return null;
-			}
-			int salary = 0;
-			try {
-				salary = Integer.parseInt(inputs.get("salary"));
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
-			String id= user.getId();
-			Employee employee = new Employee(id,"Active",salary);
-			employee.insert();
+			String password = inputs.get("username") + "abc";
+			inputs.put("password", password);
+			inputs.put("status","Active");
+			Employee employee = insert(inputs);
 			return employee;
 		}
 		return null;
@@ -69,26 +98,10 @@ public class EmployeeHandler {
 	public Employee createWithPendingStatus(HashMap<String, String> inputs) {
 		if(validate(inputs)) {
 			//Generate password
-//			String password = inputs.get("password");
-//			password = generatePassword(password);
-//			
-//			inputs.replace("password",password);
-			
-			//insert to database
-			UserHandler userhandler = new UserHandler();
-			User user = userhandler.insert(inputs);
-			if(user==null) {
-				return null;
-			}
-			int salary = 0;
-			try {
-				salary = Integer.parseInt(inputs.get("salary"));
-			} catch (NumberFormatException e) {
-				e.printStackTrace();
-			}
-			String id= user.getId();
-			Employee employee = new Employee(id,"Pending",salary);
-			employee.insert();
+			String password = inputs.get("username") + "abc";
+			inputs.put("password", password);
+			inputs.put("status","Pending");
+			Employee employee = insert(inputs);
 			return employee;
 		}
 		return null;
@@ -106,18 +119,6 @@ public class EmployeeHandler {
 				Message.error("All fields must be filled!");
 				return false;
 			}
-		}
-		
-		//validasi confirm password = password
-		if(!inputs.get("password").equals(inputs.get("confirm_password"))) {
-			Message.error("Password and confirmed password must be same !");
-			return false;
-		}
-		
-		//validasi gender harus diisi male atau female
-		if(!inputs.get("gender").equals("male")&&!inputs.get("gender").equals("female")) {
-			Message.error("Genders must be filled by male or female!");
-			return false;
 		}
 		
 		if(!testSalary(inputs.get("salary"))) {

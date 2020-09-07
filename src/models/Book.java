@@ -17,13 +17,11 @@ public class Book {
 	public Book() {
 		// TODO Auto-generated constructor stub
 	}
-
-	public Book(String genre_type, String title, String isbn, Integer quantity) {
+	
+	public Book(String genre_id, String title, String isbn, Integer quantity) {
 		super();
 		this.id = UUID.randomUUID().toString();
-		Genre genre = new Genre();
-		genre = genre.getByType(genre_type);
-		this.genre_id = genre.getId();
+		this.genre_id = genre_id;
 		this.title = title;
 		this.isbn = isbn;
 		this.quantity = quantity;
@@ -34,20 +32,78 @@ public class Book {
 		connect.executeUpdate(query);
 		return this;
 	}
+	
+	public Book update() {
+		String query = String.format("UPDATE books SET genre_id='%s',title = '%s',isbn = '%s',quantity= %d WHERE id = '%s'",genre_id,title,isbn,quantity,id);
+		int result = connect.executeUpdate(query);
+		return (result==1)?this:null;
+	}
+	
+	public boolean delete() {
+		String query = String.format("DELETE FROM courses WHERE id = '%s'",id);
+		int result = connect.executeUpdate(query);
+		return (result==1);
+	}
 
+	public List<Book> getBookByQuantityMoreThanZero(){
+		String query = String.format("SELECT * FROM books WHERE quantity>0");
+		ResultSet rs = connect.executeQuery(query);
+		List<Book> theBooks = new ArrayList<Book>();
+		try {
+			while(rs.next()) {
+				theBooks.add(new Book(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return theBooks;
+	}
+	
+	public Book find(String id) {
+		String query = String.format("SELECT * FROM books WHERE id = '%s'",id);
+		ResultSet rs = connect.executeQuery(query);
+		try {
+			if(rs.next()) {
+				return new Book(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Book getByIsbn(String isbn) {
+		String query = String.format("SELECT * FROM books WHERE isbn = '%s'",isbn);
+		ResultSet rs = connect.executeQuery(query);
+		try {
+			if(rs.next()) {
+				return new Book(rs);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public Book(ResultSet rs) {
+		try {
+			this.id = rs.getString(1);
+			this.genre_id = rs.getString(2);
+			this.title = rs.getString(3);
+			this.isbn = rs.getString(4);
+			this.quantity = rs.getInt(5);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public List<Book> all(){
 		String query = String.format("SELECT * FROM books");
 		ResultSet rs = connect.executeQuery(query);
 		List<Book> theBooks = new ArrayList<Book>();
 		try {
 			while(rs.next()) {
-				Book book = new Book();
-				book.id = rs.getString(1);
-				book.genre_id = rs.getString(2);
-				book.title = rs.getString(3);
-				book.isbn = rs.getString(4);
-				book.quantity = rs.getInt(5);
-				theBooks.add(book);
+				theBooks.add(new Book(rs));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

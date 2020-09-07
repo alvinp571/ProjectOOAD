@@ -9,7 +9,7 @@ import java.sql.Statement;
 public class Connect {
 	private String username = "root";
 	private String password = "";
-	private String database= "testsweebookdao";
+	private String database= "cobasweebookdao";
 	private String host = "localhost:3306";
 	private String connection = String.format("jdbc:mysql://%s/%s",host,database);
 	

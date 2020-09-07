@@ -98,6 +98,7 @@
 package views;
 
 import java.awt.Graphics;
+
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -108,6 +109,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import controllers.AuthController;
 import controllers.MemberHandler;
 import views.base.BaseInternalView;
 import views.base.BaseView;
@@ -128,7 +130,7 @@ public final class ManagerView extends BaseView {
   private JMenuItem miLogout, miViewBorrowingHistory, miViewEmployees, miViewMembership;
   private JDesktopPane desktopPane;
   
-  private ViewEmployeeManager viewEmployeeManager;
+  private ViewEmployee viewEmployee;
   private BaseInternalView viewMembership;
   private BaseInternalView viewBorrowHistoryManager;
   
@@ -196,8 +198,8 @@ public final class ManagerView extends BaseView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          // TODO Auto-generated method stub
-
+        	dispose();
+        	new AuthController().showLoginForm().showForm();
         }
       }
     );
@@ -230,10 +232,10 @@ public final class ManagerView extends BaseView {
 
     	        @Override
     	        public void actionPerformed(ActionEvent e) {
-    	        	if(viewEmployeeManager == null || viewEmployeeManager.isClosed()) {
-    	        		viewEmployeeManager = new ViewEmployeeManager();
-    	        		desktopPane.add(viewEmployeeManager);
-    	        		viewEmployeeManager.showForm();
+    	        	if(viewEmployee == null || viewEmployee.isClosed()) {
+    	        		viewEmployee = new ViewEmployee();
+    	        		desktopPane.add(viewEmployee);
+    	        		viewEmployee.showForm();
     	        	}
     	        }
     	      }

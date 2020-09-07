@@ -106,6 +106,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import controllers.AuthController;
 import controllers.BookHandler;
 import controllers.GenreHandler;
 import views.base.BaseInternalView;
@@ -124,7 +125,7 @@ public final class PurchasingView extends BaseView {
 
   private JMenuBar menuBar;
   private JMenu mFile, mManage;
-  private JMenuItem miLogout, miViewGenre, miRestockBook, miViewBook, miDeleteBook;
+  private JMenuItem miLogout, miViewGenre, miRestockBook, miViewBook, miDeleteBook,miManageBook;
   private JDesktopPane desktopPane;
 
   private BaseInternalView viewGenre;
@@ -148,6 +149,7 @@ public final class PurchasingView extends BaseView {
     miRestockBook = new JMenuItem("Restock Book");
     miViewBook = new JMenuItem("View Book");
     miDeleteBook = new JMenuItem("Delete Book");
+    miManageBook = new JMenuItem("Manage Book");
 
     desktopPane =
       new JDesktopPane() {
@@ -175,9 +177,10 @@ public final class PurchasingView extends BaseView {
   public void addComponent() {
     mFile.add(miLogout);
     mManage.add(miViewGenre);
-    mManage.add(miRestockBook);
+//    mManage.add(miRestockBook);
     mManage.add(miViewBook);
-    mManage.add(miDeleteBook);
+    mManage.add(miManageBook);
+//    mManage.add(miDeleteBook);
 
     menuBar.add(mFile);
     menuBar.add(mManage);
@@ -198,8 +201,8 @@ public final class PurchasingView extends BaseView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          // TODO Auto-generated method stub
-
+        	dispose();
+        	new AuthController().showLoginForm().showForm();
         }
       }
     );
@@ -222,6 +225,25 @@ public final class PurchasingView extends BaseView {
         }
       }
     );
+    miManageBook.addActionListener(
+    		new AbstractAction() {
+    			/**
+	   	         *
+	   	         */
+	   	        private static final long serialVersionUID = 1L;
+    			
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					if(restockBook == null || restockBook.isClosed()) {
+    	        		//sementara karena belum ada controller
+    	        		restockBook = new ManageBook();
+    	        		desktopPane.add(restockBook);
+    	        		restockBook.showForm();
+    	        	}
+				}
+			}
+    		
+    	);
     
     miRestockBook.addActionListener(
     	      new AbstractAction() {
@@ -234,7 +256,7 @@ public final class PurchasingView extends BaseView {
     	        public void actionPerformed(ActionEvent e) {
     	        	if(restockBook == null || restockBook.isClosed()) {
     	        		//sementara karena belum ada controller
-    	        		restockBook = new RestockBook();
+    	        		restockBook = new ManageBook();
     	        		desktopPane.add(restockBook);
     	        		restockBook.showForm();
     	        	}

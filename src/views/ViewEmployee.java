@@ -1,6 +1,9 @@
 //package views;
 //
 //import java.awt.BorderLayout;
+//
+//
+//
 //import java.awt.GridLayout;
 //import java.awt.event.ActionEvent;
 //import java.util.List;
@@ -11,7 +14,7 @@
 //import javax.swing.JPanel;
 //import javax.swing.JPasswordField;
 //import javax.swing.JTextArea;
-//import javax.swing.JTextField;
+////import javax.swing.JTextField;
 //import javax.swing.border.EmptyBorder;
 //
 //import components.LabelTitle;
@@ -19,19 +22,21 @@
 //import controllers.RoleHandler;
 //import models.Employee;
 //import models.Role;
+//import views.base.BaseInternalView;
 //import views.base.BaseView;
 //
-//public class ViewEmployeeHumanCapital extends BaseView{
+//public class ViewEmployeeManager extends BaseView{
+//
 //	private static final long serialVersionUID = 1L;
 //
 //	  private LabelTitle title;
 //	  private JLabel lblUsername, lblPassword;
-//	  private JTextField txtUsername;
+////	  private JTextField txtUsername;
 //	  private JPasswordField txtPassword;
 //	  private JButton btnLogin, btnRegister,btnFired;
-//	  private JTextArea txtShowEmployee1,txtShowEmployee2,txtShowEmployee3;
+//	  private JTextArea txtShowEmployee1,txtShowEmployee2,txtShowEmployee3,txtShowRole;
 //
-//	  public ViewEmployeeHumanCapital() {
+//	  public ViewEmployeeManager() {
 //	    super("Employee List", 350, 225);
 //	  }
 //
@@ -40,7 +45,7 @@
 //	    title = new LabelTitle("View Employee");
 //	    lblUsername = new JLabel("Username");
 //	    lblPassword = new JLabel("Password");
-//	    txtUsername = new JTextField();
+////	    txtUsername = new JTextField();
 //	    txtPassword = new JPasswordField();
 //	    btnLogin = new JButton("Accept Employee");
 //	    btnRegister = new JButton("Add New Employee");
@@ -48,6 +53,7 @@
 //	    txtShowEmployee1 = new JTextArea("");
 //	    txtShowEmployee2 = new JTextArea("");
 //	    txtShowEmployee3 = new JTextArea("");
+//	    txtShowRole = new JTextArea("");
 //	    
 //	    EmployeeHandler employeeHandler = new EmployeeHandler();
 //	    List<Employee> theEmployees = employeeHandler.getAll();
@@ -70,7 +76,7 @@
 //			roles = roles + role.getName() + "\n";
 //		}
 //	    System.out.println(roles);
-//	    txtUsername.setText(roles);
+//	    txtShowRole.setText(roles);
 //	  }
 //
 //	  @Override
@@ -89,7 +95,7 @@
 //	    pnlFormInput1.add(txtShowEmployee3,BorderLayout.EAST);
 //	    
 //	    JPanel pnlFormInput2 = new JPanel(new GridLayout(1,1,8,8));
-//	    pnlFormInput2.add(txtUsername);
+//	    pnlFormInput2.add(txtShowRole);
 //	    
 //	    JPanel pnlForm = new JPanel(new BorderLayout(8, 8));
 ////	    pnlForm.add(pnlFormLabel, BorderLayout.WEST);
@@ -97,9 +103,9 @@
 //	    pnlForm.add(pnlFormInput1, BorderLayout.CENTER);
 //
 //	    JPanel pnlButton = new JPanel(new GridLayout(3, 1, 8, 8));
-////	    pnlButton.add(btnLogin);
+//	    pnlButton.add(btnLogin);
 //	    pnlButton.add(btnRegister);
-////	    pnlButton.add(btnFired);
+//	    pnlButton.add(btnFired);
 //
 //	    JPanel panel = new JPanel(new BorderLayout(8, 8));
 //	    panel.add(title.getLabel(), BorderLayout.NORTH);
@@ -159,9 +165,11 @@ package views;
 
 import components.ButtonInternalClose;
 import components.LabelTitle;
+import components.Message;
 import components.PanelForm;
 import components.Table;
 import controllers.EmployeeHandler;
+import helper.Session;
 import models.Employee;
 
 import java.awt.BorderLayout;
@@ -169,13 +177,17 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.AbstractAction;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
@@ -187,7 +199,7 @@ import views.base.BaseInternalView;
  *
  * @author kevinsudut <kevinsuryaw@gmail.com>
  */
-public final class ViewEmployeeHumanCapital extends BaseInternalView {
+public final class ViewEmployee extends BaseInternalView {
   /**
    *
    */
@@ -197,25 +209,27 @@ public final class ViewEmployeeHumanCapital extends BaseInternalView {
   private Table table;
   private JTabbedPane tabbedPane;
   private PanelForm panelAdd, panelAccept, panelFired;
-  private JLabel lblInsertCode, lblInsertName, lblInsertCredit;
-  private JLabel lblUpdateCode, lblUpdateName, lblUpdateCredit;
-  private JLabel lblDeleteCode;
-  private JLabel lblSelectUpdateCode, lblSelectDeleteCode;
-  private JTextField txtInsertCode, txtInsertName;
-  private JTextField txtUpdateName;
-  private JComboBox<String> cbInsertCredit;
-  private JComboBox<String> cbUpdateCredit;
+  private JLabel lblInsertName, lblInsertUsername, lblInsertSalary,lblInsertRole,lblInsertGender;
+  private JLabel lblUpdateName;
+  private JLabel lblDeleteEmployee;
+  private JLabel lblSelectUpdateEmployee, lblSelectDeleteEmployee;
+  private JTextField txtInsertName, txtInsertUsername,txtInsertSalary,txtInsertRole;
+  private JRadioButton rbInsertMaleGender,rbInsertFemaleGender;
+  private ButtonGroup bg1;
+  private JComboBox<String> cbInsertGender;
   private JButton btnInsert, btnUpdate, btnDelete;
   private ButtonInternalClose close;
 
-  public ViewEmployeeHumanCapital() {
-    super("View Employee", 1000, 350);
+  private EmployeeHandler employeeHandler = new EmployeeHandler();
+  
+  public ViewEmployee() {
+    super("View Employe", 1000, 350);
   }
 
   @Override
   public void initializeComponent() {
     Vector<Object> tHeader = new Vector<>();
-    tHeader.add("Id");
+    tHeader.add("Employee Id");
     tHeader.add("Salary");
     tHeader.add("Status");
     Vector<Vector<Object>> tRows = new Vector<>();
@@ -223,12 +237,8 @@ public final class ViewEmployeeHumanCapital extends BaseInternalView {
     EmployeeHandler employeeHandler = new EmployeeHandler();
     List<Employee> theEmployees = employeeHandler.getAll();
     
-    Vector<Object> forEachRow;
     for (Employee e : theEmployees) {
-    	forEachRow = new Vector<>();
-		forEachRow.add(e.getId());
-		forEachRow.add(e.getSalary());
-		forEachRow.add(e.getStatus());
+    	Vector<Object> forEachRow = addRow(e);
 		tRows.add(forEachRow);
 	}
     
@@ -242,30 +252,34 @@ public final class ViewEmployeeHumanCapital extends BaseInternalView {
      * Initialize Component for Insert Form
      */
     
-    lblInsertCode = new JLabel("Course Code");
-    lblInsertName = new JLabel("Course Name");
-    lblInsertCredit = new JLabel("Course Credit");
-    txtInsertCode = new JTextField();
+    lblInsertName = new JLabel("Employee Name");
+    lblInsertSalary = new JLabel("Employee Salary");
+    lblInsertUsername = new JLabel("Employee Username");
+    lblInsertRole= new JLabel("Employee Role");
+    lblInsertGender = new JLabel("Employee Gender");
+    txtInsertUsername = new JTextField();
     txtInsertName = new JTextField();
-    cbInsertCredit =
+    txtInsertRole = new JTextField();
+    txtInsertSalary = new JTextField();
+    rbInsertMaleGender = new JRadioButton("Male");
+    rbInsertFemaleGender = new JRadioButton("Female");
+    bg1 = new ButtonGroup();
+    bg1.add(rbInsertMaleGender);
+    bg1.add(rbInsertFemaleGender);
+    
+    cbInsertGender =
       new JComboBox<>(
         new String[] {
-          "Choose Course Credit",
-          "1",
-          "2",
-          "4",
-          "5",
-          "2/1",
-          "2/2",
-          "2/4",
-          "4/2",
+          "Choose Gender",
+          "Male",
+          "Female",
         }
       );
-    btnInsert = new JButton("Insert");
+    btnInsert = new JButton("Add Employee");
 
     Component[][] insert = {
-      new Component[] { lblInsertCode, lblInsertName, lblInsertCredit },
-      new Component[] { txtInsertCode, txtInsertName, cbInsertCredit },
+      new Component[] { lblInsertName, lblInsertUsername, lblInsertRole,lblInsertSalary,lblInsertGender },
+      new Component[] { txtInsertName, txtInsertUsername,txtInsertRole,txtInsertSalary,cbInsertGender},
     };
 
     panelAdd = new PanelForm(insert, btnInsert, new Dimension(350, 350));
@@ -274,33 +288,14 @@ public final class ViewEmployeeHumanCapital extends BaseInternalView {
      * Initialize Component for Update Form
      */
 
-    lblUpdateCode = new JLabel("Course Code");
-    lblUpdateName = new JLabel("Course Name");
-    lblUpdateCredit = new JLabel("Course Credit");
-    lblSelectUpdateCode = new JLabel("Please Choose Course Code");
-    txtUpdateName = new JTextField();
-    txtUpdateName.setEnabled(Boolean.FALSE);
-    cbUpdateCredit =
-      new JComboBox<>(
-        new String[] {
-          "Choose Course Credit",
-          "1",
-          "2",
-          "4",
-          "5",
-          "2/1",
-          "2/2",
-          "2/4",
-          "4/2",
-        }
-      );
-    cbUpdateCredit.setEnabled(Boolean.FALSE);
-    btnUpdate = new JButton("Update");
+    lblUpdateName = new JLabel("Employee Name");
+    lblSelectUpdateEmployee = new JLabel("Please Choose Employee");
+    btnUpdate = new JButton("Accept Employee");
     btnUpdate.setEnabled(Boolean.FALSE);
 
     Component[][] update = {
-      new Component[] { lblUpdateCode, lblUpdateName, lblUpdateCredit },
-      new Component[] { lblSelectUpdateCode, txtUpdateName, cbUpdateCredit },
+      new Component[] { lblUpdateName},
+      new Component[] { lblSelectUpdateEmployee},
     };
 
     panelAccept = new PanelForm(update, btnUpdate, new Dimension(350, 350));
@@ -309,35 +304,48 @@ public final class ViewEmployeeHumanCapital extends BaseInternalView {
      * Initialize Component for Delete Form
      */
 
-    lblDeleteCode = new JLabel("Course Code");
-    lblSelectDeleteCode = new JLabel("Please Choose Course Code");
-    btnDelete = new JButton("Delete");
+    lblDeleteEmployee = new JLabel("Fired Employee");
+    lblSelectDeleteEmployee = new JLabel("Please Choose Employee");
+    btnDelete = new JButton("Fired Employee");
     btnDelete.setEnabled(Boolean.FALSE);
 
     Component[][] delete = {
-      new Component[] { lblDeleteCode },
-      new Component[] { lblSelectDeleteCode },
+      new Component[] { lblDeleteEmployee},
+      new Component[] { lblSelectDeleteEmployee},
     };
 
     panelFired = new PanelForm(delete, btnDelete, new Dimension(350, 350));
-
+    
     close = new ButtonInternalClose();
   }
 
+private Vector<Object> addRow(Employee e) {
+	Vector<Object> forEachRow = new Vector<>();
+	forEachRow.add(e.getId());
+	forEachRow.add(e.getSalary());
+	forEachRow.add(e.getStatus());
+	return forEachRow;
+}
+
   @Override
   public void addComponent() {
-    tabbedPane.add("Add Employee", panelAdd.getPanel());
-//    tabbedPane.add("Accept Employee", panelAccept.getPanel());
-//    tabbedPane.add("Fired Employee", panelFired.getPanel());
+	tabbedPane.add("Add Employee", panelAdd.getPanel());
+	if(Session.showRoleName().equals("Manager")) {
+		tabbedPane.add("Accept Employee", panelAccept.getPanel());
+		tabbedPane.add("Fired Employee", panelFired.getPanel());		
+	}
 
     JPanel pnlCenter = new JPanel(new BorderLayout(8, 8));
     pnlCenter.add(table.getScrollPane(), BorderLayout.CENTER);
     pnlCenter.add(tabbedPane, BorderLayout.EAST);
+    
+    JPanel pnlSouth = new JPanel(new BorderLayout(4, 4));
+    pnlSouth.add(close.getButton(), BorderLayout.SOUTH);
 
     JPanel panel = new JPanel(new BorderLayout(8, 8));
     panel.add(title.getLabel(), BorderLayout.NORTH);
     panel.add(pnlCenter, BorderLayout.CENTER);
-    panel.add(close.getButton(), BorderLayout.SOUTH);
+    panel.add(pnlSouth, BorderLayout.SOUTH);
     panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
     add(panel);
@@ -351,6 +359,13 @@ public final class ViewEmployeeHumanCapital extends BaseInternalView {
         @Override
         public void mouseClicked(MouseEvent e) {
           super.mouseClicked(e);
+          
+          int row = table.getSelectedRow();
+          lblSelectUpdateEmployee.setText(table.getValueAt(row,0));
+          btnUpdate.setEnabled(true);
+          
+          lblSelectDeleteEmployee.setText(table.getValueAt(row,0));
+          btnDelete.setEnabled(true);
         }
       }
     );
@@ -364,8 +379,29 @@ public final class ViewEmployeeHumanCapital extends BaseInternalView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          // TODO Auto-generated method stub
-
+        	HashMap<String,String> inputs = new HashMap<String, String>();
+        	inputs.put("name",txtInsertName.getText());
+        	inputs.put("username",txtInsertUsername.getText());
+        	inputs.put("role",txtInsertRole.getText());
+        	inputs.put("salary",txtInsertSalary.getText());
+        	inputs.put("gender",cbInsertGender.getSelectedItem().toString());
+        	
+        	Employee employee = new Employee();
+        	if(Session.showRoleName().equals("Manager")) {
+        		employee = employeeHandler.createWithActiveStatus(inputs);        		
+        	}else {
+        		employee = employeeHandler.createWithPendingStatus(inputs);     
+        	}
+        	
+        	if(employee!=null) {
+        		table.addNewRow(addRow(employee));
+        		txtInsertName.setText("");
+        		txtInsertUsername.setText("");
+        		txtInsertRole.setText("");
+        		txtInsertSalary.setText("");
+        		cbInsertGender.setSelectedIndex(0);
+        		Message.success("Success insert a new Employee");
+        	}
         }
       }
     );
@@ -379,9 +415,21 @@ public final class ViewEmployeeHumanCapital extends BaseInternalView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          // TODO Auto-generated method stub
-
+        	int result = Message.confirm("Are you sure want to Accept this employee ?", "Fired Employee");
+        	if(result==JOptionPane.YES_OPTION) {
+        		Employee em = employeeHandler.acceptEmployee(lblSelectDeleteEmployee.getText());
+        		if(em !=null) {
+            		table.updateRow(table.getSelectedRow(),em.getId(),em.getSalary().toString(),em.getStatus());
+            		Message.success("Success accepting employee !");
+            		refreshForm();
+        		}else {
+        			System.out.println(lblSelectDeleteEmployee.getText());
+        			Message.error("Employee is not in pending status!");
+            		refreshForm();
+        		}
+        	}
         }
+
       }
     );
 
@@ -394,12 +442,30 @@ public final class ViewEmployeeHumanCapital extends BaseInternalView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          // TODO Auto-generated method stub
-
+        	int result = Message.confirm("Are you sure want to Fired this employee ?", "Fired Employee");
+        	if(result==JOptionPane.YES_OPTION) {
+        		Employee em = employeeHandler.firedEmployee(lblSelectDeleteEmployee.getText());
+        		if(em !=null) {
+        			table.updateRow(table.getSelectedRow(),em.getId(),em.getSalary().toString(),em.getStatus());
+            		Message.success("Success firing employee !");
+            		refreshForm();
+        		}else {
+        			Message.error("Employee is not in active status !");
+            		refreshForm();
+        		}
+        	}
         }
       }
     );
 
     close.addListener(this);
+  }
+  
+  private void refreshForm() {
+	  	lblSelectUpdateEmployee.setText("Please Choose Employee");
+	  	btnUpdate.setEnabled(false);
+	  	
+		lblSelectDeleteEmployee.setText("Please Choose Employee Code");
+		btnDelete.setEnabled(false);
   }
 }
