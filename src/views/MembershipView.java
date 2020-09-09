@@ -214,7 +214,7 @@ public final class MembershipView extends BaseView {
     	        public void actionPerformed(ActionEvent e) {
     	        	if(borrowBook == null || borrowBook.isClosed()) {
     	        		//sementara karena belum ada controller
-    	        		borrowBook = new BorrowBook();
+    	        		borrowBook = new BorrowBookForm();
     	        		desktopPane.add(borrowBook);
     	        		borrowBook.showForm();
     	        	}

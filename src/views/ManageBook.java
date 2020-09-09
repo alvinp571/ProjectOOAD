@@ -182,6 +182,10 @@ public Vector<Object> addRow(Book b) {
         @Override
         public void mouseClicked(MouseEvent e) {
           super.mouseClicked(e);
+          
+          int row = table.getSelectedRow();
+          lblSelectDeleteGenre.setText(table.getValueAt(row,0));
+          btnDelete.setEnabled(true);
         }
       }
     );
@@ -200,6 +204,7 @@ public Vector<Object> addRow(Book b) {
         	inputs.put("isbn",txtInsertISBN.getText());
         	inputs.put("quantity", txtInsertQuantity.getText());
         	inputs.put("genre",cbInsertGenre.getSelectedItem().toString());
+        	
         	
         	Book b = bookHandler.decide(inputs);
         	if(b!=null) {

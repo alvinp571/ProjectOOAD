@@ -40,7 +40,7 @@ public class Book {
 	}
 	
 	public boolean delete() {
-		String query = String.format("DELETE FROM courses WHERE id = '%s'",id);
+		String query = String.format("DELETE FROM books WHERE id = '%s'",id);
 		int result = connect.executeUpdate(query);
 		return (result==1);
 	}

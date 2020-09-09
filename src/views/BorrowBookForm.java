@@ -32,7 +32,7 @@ import views.base.BaseInternalView;
  *
  * @author kevinsudut <kevinsuryaw@gmail.com>
  */
-public final class BorrowBook extends BaseInternalView {
+public final class BorrowBookForm extends BaseInternalView {
   /**
    *
    */
@@ -53,7 +53,7 @@ public final class BorrowBook extends BaseInternalView {
   private JButton btnInsert, btnUpdate, btnDelete, btnFiredEmployee;
   private ButtonInternalClose close;
 
-  public BorrowBook() {
+  public BorrowBookForm() {
     super("Borrow Book", 1000, 350);
   }
 

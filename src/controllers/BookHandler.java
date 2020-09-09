@@ -7,6 +7,7 @@ import java.util.Set;
 
 
 import components.Message;
+import helper.Session;
 import models.Book;
 import models.Genre;
 import views.ViewBookForm;
@@ -44,7 +45,7 @@ public class BookHandler {
 	public Book decide(HashMap<String,String>inputs) {
 		if(validate(inputs)) {
 			Book b = new Book();
-			if(getByIsbn(inputs.get("isbn"))!= null) {
+			if(restockBook(inputs.get("isbn"))==null) {
 				b = insert(inputs);
 			}else {
 				b = update(inputs);
@@ -58,13 +59,23 @@ public class BookHandler {
 		Genre genre = new Genre();
 		genre = genre.getByType(inputs.get("genre"));
 		Integer q = Integer.parseInt(inputs.get("quantity"));
-		return new Book(genre.getId(),inputs.get("title"),inputs.get("isbn"),q);
+		return new Book(genre.getId(),inputs.get("title"),inputs.get("isbn"),q).insert();
+	}
+	
+	public void updateQuantity(Book book,int q) {
+		book.setQuantity(book.getQuantity()+q);
+		return;
 	}
 	
 	public Book update(HashMap<String,String> inputs) {
 		Book b = book.getByIsbn(inputs.get("isbn"));
 		Integer q = Integer.parseInt(inputs.get("quantity"));
-		b.setQuantity(q);
+		if(Session.showRoleName().equals("Purchasing")) {
+			Genre g = new Genre().getByType(inputs.get("genre"));
+			b.setGenre_id(g.getId());		
+		}
+		b.setQuantity(b.getQuantity() + q);
+		b.setTitle(inputs.get("title"));
 		b = b.update();
 		return b;
 	}
@@ -77,16 +88,17 @@ public class BookHandler {
 		return false;
 	}
 	
-//	public Book restockBook(String isbn) {
-//		Book b = new Book().getByIsbn(isbn);
-//		if(b!=null) {
-//			
-//		}
-//	}
+	public Book restockBook(String isbn) {
+		Book b = new Book().getByIsbn(isbn);
+		if(b!=null) {
+			return b;
+		}
+		return null;
+	}
 	
-	public Boolean testQuantity(String salary) {
+	public Boolean testInteger(String s) {
 		try {
-			Integer.parseInt(salary);
+			Long.parseLong(s);
 			return true;
 		} catch (NumberFormatException e) {
 			return false;
@@ -102,7 +114,17 @@ public class BookHandler {
 			}
 		}
 		
-		if(!testQuantity(inputs.get("quantity"))) {
+		if(!testInteger(inputs.get("isbn"))) {
+			Message.error("ISBN must be a number !");
+			return false;
+		}
+		
+		if(inputs.get("isbn").length()<10 || inputs.get("isbn").length()>13) {
+			Message.error("ISBN length must be between 10 and 13");
+			return false;
+		}
+		
+		if(!testInteger(inputs.get("quantity"))) {
 			Message.error("Quantity must be a number !");
 			return false;
 		}

@@ -40,7 +40,7 @@ public final class RegisterForm extends BaseView {
 
   @Override
   public void initializeComponent() {
-    title = new LabelTitle("Register New Account");
+    title = new LabelTitle("Register Members");
     lblName = new JLabel("Name");
     lblUsername = new JLabel("Username");
     lblPassword = new JLabel("Password");

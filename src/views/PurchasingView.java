@@ -295,9 +295,9 @@ public final class PurchasingView extends BaseView {
     	        public void actionPerformed(ActionEvent e) {
     	        	if(deleteBook == null || deleteBook.isClosed()) {
     	        		//sementara karena belum ada controller
-    	        		deleteBook = new DeleteBook();
-    	        		desktopPane.add(deleteBook);
-    	        		deleteBook.showForm();
+//    	        		deleteBook = new DeleteBook();
+//    	        		desktopPane.add(deleteBook);
+//    	        		deleteBook.showForm();
     	        	}
     	        }
     	      }
