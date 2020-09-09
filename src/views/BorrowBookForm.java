@@ -2,9 +2,11 @@ package views;
 
 import components.ButtonInternalClose;
 import components.LabelTitle;
+import components.Message;
 import components.PanelForm;
 import components.Table;
 import controllers.BookHandler;
+import controllers.BorrowBookHandler;
 import controllers.EmployeeHandler;
 import models.Book;
 import models.Employee;
@@ -20,6 +22,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -39,26 +42,29 @@ public final class BorrowBookForm extends BaseInternalView {
   private static final long serialVersionUID = 1L;
 
   private LabelTitle title;
-  private Table table;
+  private Table table, tableCart;
   private JTabbedPane tabbedPane;
-  private PanelForm panelAdd, panelAccept, panelFired;
-  private JLabel lblInsertCode, lblInsertName, lblInsertCredit;
-  private JLabel lblUpdateCode, lblUpdateName, lblUpdateCredit;
+  private PanelForm panelAdd, panelRemove, panelBorrow;
+  private JLabel lblInsertName, lblSelectInsertName;
+  private JLabel lblRemoveName, lblSelectRemoveName;
   private JLabel lblDeleteCode;
   private JLabel lblSelectUpdateCode, lblSelectDeleteCode;
   private JTextField txtInsertCode, txtInsertName;
   private JTextField txtUpdateName;
   private JComboBox<String> cbInsertCredit;
   private JComboBox<String> cbUpdateCredit;
-  private JButton btnInsert, btnUpdate, btnDelete, btnFiredEmployee;
+  private JButton btnInsert, btnRemove, btnBorrowBook;
   private ButtonInternalClose close;
 
   public BorrowBookForm() {
-    super("Borrow Book", 1000, 350);
+    super("Borrow Book", 1300, 350);
   }
 
   @Override
   public void initializeComponent() {
+	  /*
+	   * Table Book Available
+	   */
 	  Vector<Object> tHeader = new Vector<>();
 	    tHeader.add("Id");
 	    tHeader.add("Genre");
@@ -68,8 +74,8 @@ public final class BorrowBookForm extends BaseInternalView {
 	    
 	    Vector<Vector<Object>> tRows = new Vector<>();
 	    
-	    BookHandler bookHandler = new BookHandler();
-	    List<Book> theBooks = bookHandler.getAll();
+	    BorrowBookHandler borrowHandler = new BorrowBookHandler();
+	    List<Book> theBooks = borrowHandler.getAvailableBook();
 	    
 	    Vector<Object> forEachRow;
 	    for (Book e : theBooks) {
@@ -83,6 +89,38 @@ public final class BorrowBookForm extends BaseInternalView {
 		}
     
     table = new Table(tHeader, tRows);
+    
+    /*
+     * Table Cart Storage
+     */
+    Vector<Object> tHeaderCart = new Vector<>();
+    	tHeaderCart.add("Cart");
+    	tHeaderCart.add("Id");
+    	tHeaderCart.add("Genre");
+    	tHeaderCart.add("Title");
+    	tHeaderCart.add("ISBN");
+    	tHeaderCart.add("Quantity");
+    
+    Vector<Vector<Object>> tRowsCart = new Vector<>();
+    
+    BorrowBookHandler borrowHandlerCart = new BorrowBookHandler();
+    List<Book> theCarts = borrowHandlerCart.getAvailableBook();
+    
+    int numberCart = 1;
+    Vector<Object> forEachRowCart;
+    for (Book e : theCarts) {
+    	forEachRowCart = new Vector<>();
+    	forEachRowCart.add(numberCart++);
+		forEachRowCart.add(e.getId());
+		forEachRowCart.add(e.getGenre_id());
+		forEachRowCart.add(e.getTitle());
+		forEachRowCart.add(e.getIsbn());
+		forEachRowCart.add(e.getQuantity());
+		tRowsCart.add(forEachRowCart);
+	}
+
+    tableCart = new Table(tHeaderCart, tRowsCart);
+    
 
     title = new LabelTitle("Borrow Book");
 
@@ -92,30 +130,15 @@ public final class BorrowBookForm extends BaseInternalView {
      * Initialize Component for Insert Form
      */
     
-    lblInsertCode = new JLabel("Course Code");
-    lblInsertName = new JLabel("Course Name");
-    lblInsertCredit = new JLabel("Course Credit");
-    txtInsertCode = new JTextField();
-    txtInsertName = new JTextField();
-    cbInsertCredit =
-      new JComboBox<>(
-        new String[] {
-          "Choose Course Credit",
-          "1",
-          "2",
-          "4",
-          "5",
-          "2/1",
-          "2/2",
-          "2/4",
-          "4/2",
-        }
-      );
-    btnInsert = new JButton("Insert");
+    lblInsertName = new JLabel("Book Name");
+    lblSelectInsertName = new JLabel("Please Choose Book");
+
+    btnInsert = new JButton("Add to Cart");
+    btnInsert.setEnabled(Boolean.FALSE);
 
     Component[][] insert = {
-      new Component[] { lblInsertCode, lblInsertName, lblInsertCredit },
-      new Component[] { txtInsertCode, txtInsertName, cbInsertCredit },
+      new Component[] { lblInsertName,  },
+      new Component[] { lblSelectInsertName },
     };
 
     panelAdd = new PanelForm(insert, btnInsert, new Dimension(350, 350));
@@ -124,52 +147,35 @@ public final class BorrowBookForm extends BaseInternalView {
      * Initialize Component for Update Form
      */
 
-    lblUpdateCode = new JLabel("Course Code");
-    lblUpdateName = new JLabel("Course Name");
-    lblUpdateCredit = new JLabel("Course Credit");
-    lblSelectUpdateCode = new JLabel("Please Choose Course Code");
-    txtUpdateName = new JTextField();
-    txtUpdateName.setEnabled(Boolean.FALSE);
-    cbUpdateCredit =
-      new JComboBox<>(
-        new String[] {
-          "Choose Course Credit",
-          "1",
-          "2",
-          "4",
-          "5",
-          "2/1",
-          "2/2",
-          "2/4",
-          "4/2",
-        }
-      );
-    cbUpdateCredit.setEnabled(Boolean.FALSE);
-    btnUpdate = new JButton("Update");
-    btnUpdate.setEnabled(Boolean.FALSE);
+    lblRemoveName = new JLabel("Book Name");
+    lblSelectRemoveName = new JLabel("Please Choose Book Cart");
+    
+    btnRemove = new JButton("Remove Cart");
+    btnRemove.setEnabled(Boolean.FALSE);
 
-    Component[][] update = {
-      new Component[] { lblUpdateCode, lblUpdateName, lblUpdateCredit },
-      new Component[] { lblSelectUpdateCode, txtUpdateName, cbUpdateCredit },
+    Component[][] remove = {
+      new Component[] { lblRemoveName },
+      new Component[] { lblSelectRemoveName },
     };
 
-    panelAccept = new PanelForm(update, btnUpdate, new Dimension(350, 350));
+    panelRemove = new PanelForm(remove, btnRemove, new Dimension(350, 350));
 
     /**
      * Initialize Component for Delete Form
      */
 
-    lblDeleteCode = new JLabel("Course Code");
-    lblSelectDeleteCode = new JLabel("Please Choose Course Code");
-    btnDelete = new JButton("Delete");
-    btnDelete.setEnabled(Boolean.FALSE);
+//    lblBorrowBook = new JLabel("Course Code");
+//    lblSelectBorrowBook = new JLabel("Please Choose Course Code");
+    
+    btnBorrowBook = new JButton("Borrow Book");
+    btnBorrowBook.setEnabled(Boolean.FALSE);
+    
+    Component[][] borrow = {
+    	      new Component[] {  },
+    	      new Component[] {  },
+    	 };
 
-    Component[][] delete = {
-      new Component[] { lblDeleteCode },
-      new Component[] { lblSelectDeleteCode },
-    };
-
-    panelFired = new PanelForm(delete, btnDelete, new Dimension(350, 350));
+    panelBorrow = new PanelForm(borrow, btnBorrowBook, new Dimension(350, 350));
     
 //    btnFiredEmployee = new JButton("Fired Employee");
     close = new ButtonInternalClose();
@@ -177,12 +183,13 @@ public final class BorrowBookForm extends BaseInternalView {
 
   @Override
   public void addComponent() {
-    tabbedPane.add("Remove Cart", panelAdd.getPanel());
-//    tabbedPane.add("Accept Employee", panelAccept.getPanel());
-//    tabbedPane.add("Fired Employee", panelFired.getPanel());
+    tabbedPane.add("Add to Cart", panelAdd.getPanel());
+    tabbedPane.add("Remove Cart", panelRemove.getPanel());
+    tabbedPane.add("Borrow Book Cart", panelBorrow.getPanel());
 
     JPanel pnlCenter = new JPanel(new BorderLayout(8, 8));
-    pnlCenter.add(table.getScrollPane(), BorderLayout.CENTER);
+    pnlCenter.add(table.getScrollPane(), BorderLayout.WEST);
+    pnlCenter.add(tableCart.getScrollPane(), BorderLayout.CENTER);
     pnlCenter.add(tabbedPane, BorderLayout.EAST);
     
     JPanel pnlSouth = new JPanel(new BorderLayout(4, 4));
@@ -206,10 +213,31 @@ public final class BorrowBookForm extends BaseInternalView {
         @Override
         public void mouseClicked(MouseEvent e) {
           super.mouseClicked(e);
+          
+          int row = table.getSelectedRow();
+          
+          lblSelectInsertName.setText(table.getValueAt(row,0));
+          btnInsert.setEnabled(true);
+          
         }
       }
     );
 
+    tableCart.addMouseListener(
+    	      new MouseInputAdapter() {
+
+    	        @Override
+    	        public void mouseClicked(MouseEvent e) {
+    	          super.mouseClicked(e);
+    	          
+    	          int row = tableCart.getSelectedRow();
+    	          
+    	          lblSelectRemoveName.setText(tableCart.getValueAt(row,1));
+    	          btnRemove.setEnabled(true);
+    	        }
+    	      }
+    	    );
+    
     btnInsert.addActionListener(
       new AbstractAction() {
         /**
@@ -219,13 +247,15 @@ public final class BorrowBookForm extends BaseInternalView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          // TODO Auto-generated method stub
-
+        	int result = Message.confirm("Are you sure want to add this book to cart ?", "Add To Cart");
+        	if(result==JOptionPane.YES_OPTION) {
+        		refreshForm();
+        	}
         }
       }
     );
 
-    btnUpdate.addActionListener(
+    btnRemove.addActionListener(
       new AbstractAction() {
         /**
          *
@@ -234,13 +264,16 @@ public final class BorrowBookForm extends BaseInternalView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          // TODO Auto-generated method stub
+        	int result = Message.confirm("Are you sure want to remove this book from cart ?", "Remove From Cart");
+        	if(result==JOptionPane.YES_OPTION) {
+        		refreshForm();
+        	}
 
         }
       }
     );
 
-    btnDelete.addActionListener(
+    btnBorrowBook.addActionListener(
       new AbstractAction() {
         /**
          *
@@ -249,12 +282,19 @@ public final class BorrowBookForm extends BaseInternalView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          // TODO Auto-generated method stub
 
         }
       }
     );
 
     close.addListener(this);
+  }
+  
+  private void refreshForm() {
+	  	lblSelectInsertName.setText("Please Choose Book");
+	  	btnInsert.setEnabled(false);
+	  	
+		lblSelectRemoveName.setText("Please Choose Book Cart");
+		btnRemove.setEnabled(false);
   }
 }
