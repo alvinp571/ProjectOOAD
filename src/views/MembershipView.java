@@ -232,7 +232,7 @@ public final class MembershipView extends BaseView {
     	        @Override
     	        public void actionPerformed(ActionEvent e) {
     	        	if(viewPendingBorrowBookMembership == null || viewPendingBorrowBookMembership.isClosed()) {
-    	        		viewPendingBorrowBookMembership = new ViewPendingBorrowBookMembership();
+    	        		viewPendingBorrowBookMembership = new ViewPendingBorrowBookAdmin();
     	        		desktopPane.add(viewPendingBorrowBookMembership);
     	        		viewPendingBorrowBookMembership.showForm();
     	        	}

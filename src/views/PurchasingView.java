@@ -125,13 +125,12 @@ public final class PurchasingView extends BaseView {
 
   private JMenuBar menuBar;
   private JMenu mFile, mManage;
-  private JMenuItem miLogout, miViewGenre, miRestockBook, miViewBook, miDeleteBook,miManageBook;
+  private JMenuItem miLogout, miViewGenre, miViewBook,miManageBook;
   private JDesktopPane desktopPane;
 
   private BaseInternalView viewGenre;
   private BaseInternalView viewBook;
   private BaseInternalView restockBook;
-  private BaseInternalView deleteBook;
   
   public PurchasingView() {
     super("Purchasing Staff", Boolean.TRUE);
@@ -146,9 +145,7 @@ public final class PurchasingView extends BaseView {
 
     miLogout = new JMenuItem("Logout");
     miViewGenre = new JMenuItem("View Genre");
-    miRestockBook = new JMenuItem("Restock Book");
     miViewBook = new JMenuItem("View Book");
-    miDeleteBook = new JMenuItem("Delete Book");
     miManageBook = new JMenuItem("Manage Book");
 
     desktopPane =
@@ -177,10 +174,8 @@ public final class PurchasingView extends BaseView {
   public void addComponent() {
     mFile.add(miLogout);
     mManage.add(miViewGenre);
-//    mManage.add(miRestockBook);
     mManage.add(miViewBook);
     mManage.add(miManageBook);
-//    mManage.add(miDeleteBook);
 
     menuBar.add(mFile);
     menuBar.add(mManage);
@@ -225,6 +220,25 @@ public final class PurchasingView extends BaseView {
         }
       }
     );
+    miViewBook.addActionListener(
+  	      new AbstractAction() {
+  	        /**
+  	         *
+  	         */
+  	        private static final long serialVersionUID = 1L;
+
+  	        @Override
+  	        public void actionPerformed(ActionEvent e) {
+  	        	if(viewBook == null || viewBook.isClosed()) {
+  	        		viewBook = new BookHandler().showViewBookForm();
+  	        		desktopPane.add(viewBook);
+  	        		viewBook.showForm();
+  	        	}
+  	        
+  	        }
+  	      }
+  	    );
+ 
     miManageBook.addActionListener(
     		new AbstractAction() {
     			/**
@@ -236,7 +250,7 @@ public final class PurchasingView extends BaseView {
 				public void actionPerformed(ActionEvent e) {
 					if(restockBook == null || restockBook.isClosed()) {
     	        		//sementara karena belum ada controller
-    	        		restockBook = new ManageBook();
+    	        		restockBook = new BookHandler().showManageBook();
     	        		desktopPane.add(restockBook);
     	        		restockBook.showForm();
     	        	}
@@ -244,64 +258,5 @@ public final class PurchasingView extends BaseView {
 			}
     		
     	);
-    
-    miRestockBook.addActionListener(
-    	      new AbstractAction() {
-    	        /**
-    	         *
-    	         */
-    	        private static final long serialVersionUID = 1L;
-
-    	        @Override
-    	        public void actionPerformed(ActionEvent e) {
-    	        	if(restockBook == null || restockBook.isClosed()) {
-    	        		//sementara karena belum ada controller
-    	        		restockBook = new ManageBook();
-    	        		desktopPane.add(restockBook);
-    	        		restockBook.showForm();
-    	        	}
-    	        
-    	        }
-    	      }
-    	    );
-    
-    miViewBook.addActionListener(
-    	      new AbstractAction() {
-    	        /**
-    	         *
-    	         */
-    	        private static final long serialVersionUID = 1L;
-
-    	        @Override
-    	        public void actionPerformed(ActionEvent e) {
-    	        	if(viewBook == null || viewBook.isClosed()) {
-    	        		viewBook = new BookHandler().showViewBookForm();
-    	        		desktopPane.add(viewBook);
-    	        		viewBook.showForm();
-    	        	}
-    	        
-    	        }
-    	      }
-    	    );
-   
-    miDeleteBook.addActionListener(
-    	      new AbstractAction() {
-    	        /**
-    	         *
-    	         */
-    	        private static final long serialVersionUID = 1L;
-
-    	        @Override
-    	        public void actionPerformed(ActionEvent e) {
-    	        	if(deleteBook == null || deleteBook.isClosed()) {
-    	        		//sementara karena belum ada controller
-//    	        		deleteBook = new DeleteBook();
-//    	        		desktopPane.add(deleteBook);
-//    	        		deleteBook.showForm();
-    	        	}
-    	        }
-    	      }
-    	    );
-    
   }
 }

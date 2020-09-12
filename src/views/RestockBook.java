@@ -179,7 +179,6 @@ public final class RestockBook extends BaseInternalView {
   public void addComponent() {
     tabbedPane.add("Restock Book", panelAdd.getPanel());
     tabbedPane.add("Coba Restock Book", panelAccept.getPanel());
-//    tabbedPane.add("Fired Employee", panelFired.getPanel());
 
     JPanel pnlCenter = new JPanel(new BorderLayout(8, 8));
     pnlCenter.add(table.getScrollPane(), BorderLayout.CENTER);
@@ -218,7 +217,7 @@ public final class RestockBook extends BaseInternalView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-//         new BookHandler().restockBook(txtInsertCode.toString());
+         new BookHandler().restockBook(txtInsertCode.toString());
          System.out.println(txtInsertCode.getText());
 
         }

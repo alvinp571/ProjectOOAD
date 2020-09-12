@@ -1,22 +1,17 @@
 package models;
 
-import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class CartStorage {
 	private HashMap<String,Book> carts;
 	
-	public CartStorage() {}
+	public CartStorage() {
+		carts = new HashMap<String, Book>();
+	}
 	
-	public List<Book> getCart(){
-	List<Book> theCarts = new ArrayList<Book>();
-		for(Map.Entry<String,Book> set: carts.entrySet()) {
-			Book book = new Book();
-			book = set.getValue();
-			theCarts.add(book);
-		}
+	public Collection<Book> getCart(){
+		Collection<Book> theCarts = carts.values();
 		return theCarts;
 	}
 	
@@ -26,7 +21,7 @@ public class CartStorage {
 	}
 	
 	public void removeCart(Book book) {
-		carts.remove(book.getId(), book);
+		carts.remove(book.getId());
 		return;
 	}
 }

@@ -1,15 +1,16 @@
 package views;
 
 import components.ButtonInternalClose;
+
 import components.LabelTitle;
 import components.Message;
 import components.PanelForm;
 import components.Table;
 import controllers.BookHandler;
 import controllers.BorrowBookHandler;
-import controllers.EmployeeHandler;
+import controllers.GenreHandler;
 import models.Book;
-import models.Employee;
+import models.Genre;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -20,12 +21,10 @@ import java.util.List;
 import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.MouseInputAdapter;
 import views.base.BaseInternalView;
@@ -44,15 +43,9 @@ public final class BorrowBookForm extends BaseInternalView {
   private LabelTitle title;
   private Table table, tableCart;
   private JTabbedPane tabbedPane;
-  private PanelForm panelAdd, panelRemove, panelBorrow;
+  private PanelForm panelAdd, panelRemove;
   private JLabel lblInsertName, lblSelectInsertName;
   private JLabel lblRemoveName, lblSelectRemoveName;
-  private JLabel lblDeleteCode;
-  private JLabel lblSelectUpdateCode, lblSelectDeleteCode;
-  private JTextField txtInsertCode, txtInsertName;
-  private JTextField txtUpdateName;
-  private JComboBox<String> cbInsertCredit;
-  private JComboBox<String> cbUpdateCredit;
   private JButton btnInsert, btnRemove, btnBorrowBook;
   private ButtonInternalClose close;
 
@@ -60,6 +53,11 @@ public final class BorrowBookForm extends BaseInternalView {
     super("Borrow Book", 1300, 350);
   }
 
+  private int numberCart = 1;
+
+  private GenreHandler genreHandler = new GenreHandler();
+  private List<Genre> theGenres = genreHandler.getAll();
+  private BorrowBookHandler borrowHandler = new BorrowBookHandler();
   @Override
   public void initializeComponent() {
 	  /*
@@ -74,17 +72,17 @@ public final class BorrowBookForm extends BaseInternalView {
 	    
 	    Vector<Vector<Object>> tRows = new Vector<>();
 	    
-	    BorrowBookHandler borrowHandler = new BorrowBookHandler();
 	    List<Book> theBooks = borrowHandler.getAvailableBook();
 	    
 	    Vector<Object> forEachRow;
-	    for (Book e : theBooks) {
+	    for (Book b : theBooks) {
 	    	forEachRow = new Vector<>();
-			forEachRow.add(e.getId());
-			forEachRow.add(e.getGenre_id());
-			forEachRow.add(e.getTitle());
-			forEachRow.add(e.getIsbn());
-			forEachRow.add(e.getQuantity());
+			forEachRow.add(b.getId());
+			String genreType = showRoleName(b);
+			forEachRow.add(genreType);
+			forEachRow.add(b.getTitle());
+			forEachRow.add(b.getIsbn());
+			forEachRow.add(b.getQuantity());
 			tRows.add(forEachRow);
 		}
     
@@ -104,18 +102,10 @@ public final class BorrowBookForm extends BaseInternalView {
     Vector<Vector<Object>> tRowsCart = new Vector<>();
     
     BorrowBookHandler borrowHandlerCart = new BorrowBookHandler();
-    List<Book> theCarts = borrowHandlerCart.getAvailableBook();
+    List<Book> theCarts = borrowHandlerCart.getCart();
     
-    int numberCart = 1;
-    Vector<Object> forEachRowCart;
     for (Book e : theCarts) {
-    	forEachRowCart = new Vector<>();
-    	forEachRowCart.add(numberCart++);
-		forEachRowCart.add(e.getId());
-		forEachRowCart.add(e.getGenre_id());
-		forEachRowCart.add(e.getTitle());
-		forEachRowCart.add(e.getIsbn());
-		forEachRowCart.add(e.getQuantity());
+    	Vector<Object> forEachRowCart = addRow(e, numberCart);
 		tRowsCart.add(forEachRowCart);
 	}
 
@@ -137,7 +127,7 @@ public final class BorrowBookForm extends BaseInternalView {
     btnInsert.setEnabled(Boolean.FALSE);
 
     Component[][] insert = {
-      new Component[] { lblInsertName,  },
+      new Component[] { lblInsertName  },
       new Component[] { lblSelectInsertName },
     };
 
@@ -163,29 +153,38 @@ public final class BorrowBookForm extends BaseInternalView {
     /**
      * Initialize Component for Delete Form
      */
-
-//    lblBorrowBook = new JLabel("Course Code");
-//    lblSelectBorrowBook = new JLabel("Please Choose Course Code");
     
-    btnBorrowBook = new JButton("Borrow Book");
-    btnBorrowBook.setEnabled(Boolean.FALSE);
-    
-    Component[][] borrow = {
-    	      new Component[] {  },
-    	      new Component[] {  },
-    	 };
-
-    panelBorrow = new PanelForm(borrow, btnBorrowBook, new Dimension(350, 350));
-    
-//    btnFiredEmployee = new JButton("Fired Employee");
+    btnBorrowBook = new JButton("Borrow book");
     close = new ButtonInternalClose();
   }
 
+  private Vector<Object> addRow(Book book,int numberCart) {
+		Vector<Object> forEachRowCart = new Vector<Object>();
+		forEachRowCart.add(numberCart++);
+		forEachRowCart.add(book.getId());
+		String genreType = showRoleName(book);
+		forEachRowCart.add(genreType);
+		forEachRowCart.add(book.getTitle());
+		forEachRowCart.add(book.getIsbn());
+		forEachRowCart.add(book.getQuantity());
+		return forEachRowCart;
+	}
+  
+  public String showRoleName(Book b) {
+		String genreType = "";
+		for (Genre genre : theGenres) {
+			if(b.getGenre_id().equals(genre.getId())) {
+				genreType = genre.getType();
+				break;
+			}
+		}
+		return genreType;
+	}
+  
   @Override
   public void addComponent() {
     tabbedPane.add("Add to Cart", panelAdd.getPanel());
     tabbedPane.add("Remove Cart", panelRemove.getPanel());
-    tabbedPane.add("Borrow Book Cart", panelBorrow.getPanel());
 
     JPanel pnlCenter = new JPanel(new BorderLayout(8, 8));
     pnlCenter.add(table.getScrollPane(), BorderLayout.WEST);
@@ -193,7 +192,7 @@ public final class BorrowBookForm extends BaseInternalView {
     pnlCenter.add(tabbedPane, BorderLayout.EAST);
     
     JPanel pnlSouth = new JPanel(new BorderLayout(4, 4));
-//    pnlSouth.add(btnFiredEmployee, BorderLayout.NORTH);
+    pnlSouth.add(btnBorrowBook, BorderLayout.NORTH);
     pnlSouth.add(close.getButton(), BorderLayout.SOUTH);
 
     JPanel panel = new JPanel(new BorderLayout(8, 8));
@@ -216,7 +215,7 @@ public final class BorrowBookForm extends BaseInternalView {
           
           int row = table.getSelectedRow();
           
-          lblSelectInsertName.setText(table.getValueAt(row,0));
+          lblSelectInsertName.setText(table.getValueAt(row,3));
           btnInsert.setEnabled(true);
           
         }
@@ -232,7 +231,7 @@ public final class BorrowBookForm extends BaseInternalView {
     	          
     	          int row = tableCart.getSelectedRow();
     	          
-    	          lblSelectRemoveName.setText(tableCart.getValueAt(row,1));
+    	          lblSelectRemoveName.setText(tableCart.getValueAt(row,4));
     	          btnRemove.setEnabled(true);
     	        }
     	      }
@@ -249,6 +248,20 @@ public final class BorrowBookForm extends BaseInternalView {
         public void actionPerformed(ActionEvent e) {
         	int result = Message.confirm("Are you sure want to add this book to cart ?", "Add To Cart");
         	if(result==JOptionPane.YES_OPTION) {
+        		BookHandler bH = new BookHandler();
+        		Book b = bH.getByIsbn(lblSelectInsertName.getText());        		
+        		if(borrowHandler.addToCart(b)) {
+            		b = bH.getByIsbn(lblSelectInsertName.getText());   
+        			int row = searchISBN(b.getIsbn());
+        			if(row >=0) {
+        				String genreType = showRoleName(b);
+        				table.updateRow(row,b.getId(),genreType,b.getTitle(),b.getIsbn(),b.getQuantity().toString());
+        				tableCart.addNewRow(addRow(b,numberCart));
+        				Message.success("Success add book to cart !");        				
+        			}
+        		}else {
+        			Message.error("Error put book to cart !");
+        		}
         		refreshForm();
         	}
         }
@@ -264,8 +277,22 @@ public final class BorrowBookForm extends BaseInternalView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-        	int result = Message.confirm("Are you sure want to remove this book from cart ?", "Remove From Cart");
+        	int result = Message.confirm("Are you sure want to borrow all the book from cart ?", "Borrow From Cart");
         	if(result==JOptionPane.YES_OPTION) {
+        		BookHandler bH = new BookHandler();
+        		Book b = bH.getByIsbn(lblSelectRemoveName.getText());
+        		if(borrowHandler.removeCart(b)) {
+            		b = bH.getByIsbn(lblSelectRemoveName.getText()); 
+        			int row = searchISBN(b.getIsbn());
+        			if(row >=0) {
+        				String genreType = showRoleName(b);
+        				table.updateRow(row,b.getId(),genreType,b.getTitle(),b.getIsbn(),b.getQuantity().toString());
+        				tableCart.removeRow(tableCart.getSelectedRow());
+        				Message.success("Success remove book from cart !");
+        			}
+        		}else {
+        			Message.error("Error remove book from cart !");
+        		}
         		refreshForm();
         	}
 
@@ -282,12 +309,26 @@ public final class BorrowBookForm extends BaseInternalView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-
+    		if(borrowHandler.borrowBook()) {
+    			tableCart.removeAll();
+    			Message.success("Borrow book success !");
+    		}
+    		refreshForm();
         }
       }
     );
 
     close.addListener(this);
+  }
+  
+  private int searchISBN(String isbn) {
+	  int column = 3;
+	  for (int  row = 0;  row < table.getRowCount(); row++) {
+		if(table.getValueAt(row, column).equals(isbn)) {
+			return row;
+		}
+	  }
+	  return -1;
   }
   
   private void refreshForm() {

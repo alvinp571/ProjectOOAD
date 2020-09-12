@@ -139,6 +139,15 @@ public final class ManageBook extends BaseInternalView {
 public Vector<Object> addRow(Book b) {
 	Vector<Object> forEachRow = new Vector<>();
 	forEachRow.add(b.getId());
+	String genreType = showRoleName(b);
+	forEachRow.add(genreType);
+	forEachRow.add(b.getTitle());
+	forEachRow.add(b.getIsbn());
+	forEachRow.add(b.getQuantity());
+	return forEachRow;
+}
+
+public String showRoleName(Book b) {
 	String genreType = "";
 	for (Genre genre : theGenres) {
 		if(b.getGenre_id().equals(genre.getId())) {
@@ -146,11 +155,7 @@ public Vector<Object> addRow(Book b) {
 			break;
 		}
 	}
-	forEachRow.add(genreType);
-	forEachRow.add(b.getTitle());
-	forEachRow.add(b.getIsbn());
-	forEachRow.add(b.getQuantity());
-	return forEachRow;
+	return genreType;
 }
 
   @Override
@@ -205,10 +210,15 @@ public Vector<Object> addRow(Book b) {
         	inputs.put("quantity", txtInsertQuantity.getText());
         	inputs.put("genre",cbInsertGenre.getSelectedItem().toString());
         	
-        	
         	Book b = bookHandler.decide(inputs);
         	if(b!=null) {
-        		table.addNewRow(addRow(b));
+        		int row = searchISBN(txtInsertISBN.getText());
+        		if(row>=0) {
+        			String genreType = showRoleName(b);
+        			table.updateRow(row,b.getId(),genreType,b.getTitle(),b.getIsbn(),b.getQuantity().toString());
+        		}else {
+        			table.addNewRow(addRow(b));
+        		}
         		txtInsertTitle.setText("");
         		txtInsertISBN.setText("");
         		txtInsertQuantity.setText("");
@@ -245,6 +255,15 @@ public Vector<Object> addRow(Book b) {
     close.addListener(this);
   }
   
+  private int searchISBN(String isbn) {
+	  int column = 3;
+	  for (int  row = 0;  row < table.getRowCount(); row++) {
+		if(table.getValueAt(row, column).equals(isbn)) {
+			return row;
+		}
+	  }
+	  return -1;
+  }
   private void refreshForm() {
 	  txtInsertTitle.setText("");
 	  txtInsertISBN.setText("");

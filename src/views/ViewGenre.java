@@ -182,6 +182,7 @@ public final class ViewGenre extends BaseInternalView {
      */
     
     lblInsertType = new JLabel("Genre Type");
+    txtInsertType = new JTextField();
     btnInsert = new JButton("Insert");
 
     Component[][] insert = {
@@ -189,7 +190,9 @@ public final class ViewGenre extends BaseInternalView {
       new Component[] { txtInsertType},
     };
 
+    
     panelAdd = new PanelForm(insert, btnInsert, new Dimension(350, 350));
+    System.out.println("yoiiiiii");
 
     close = new ButtonInternalClose();
   }

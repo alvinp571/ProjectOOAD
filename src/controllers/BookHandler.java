@@ -10,6 +10,7 @@ import components.Message;
 import helper.Session;
 import models.Book;
 import models.Genre;
+import views.ManageBook;
 import views.ViewBookForm;
 import views.base.BaseInternalView;
 
@@ -19,6 +20,10 @@ public class BookHandler {
 	
 	public BaseInternalView showViewBookForm() {
 		return new ViewBookForm();
+	}
+	
+	public BaseInternalView showManageBook() {
+		return new ManageBook();
 	}
 	
 	public List<Book> getAll(){

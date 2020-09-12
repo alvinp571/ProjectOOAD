@@ -1,5 +1,7 @@
 package controllers;
 
+import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,30 +29,16 @@ public class BorrowBookHandler {
 	}
 	
 	public List<Book> getCart(){
-		return carts.getCart();
+		List<Book> theCarts = new ArrayList<Book>(carts.getCart());
+		return theCarts;
 	}
 	
 	public boolean addToCart(Book book) {
 		if(carts.getCart().size()==10) {
-			Message.error("You have borrow max(10) books !");
+			Message.error("Max borrow is 10 books !");
 			return false;
 		}
 		carts.AddCart(book);
-		BookHandler bookHandler = new BookHandler();
-		HashMap<String, String> inputs = new HashMap<String, String>();
-		inputs.put("isbn",book.getIsbn());
-		Integer a = 1;
-		inputs.put("quantity",a.toString());
-		inputs.put("title",book.getTitle());
-		inputs.put("genre",book.getGenre_id());
-		bookHandler.update(inputs);
-		
-		Message.success("Add to cart success !");
-		return true;
-	}
-	
-	public boolean removeCart(Book book) {
-		carts.removeCart(book);
 		BookHandler bookHandler = new BookHandler();
 		HashMap<String, String> inputs = new HashMap<String, String>();
 		inputs.put("isbn",book.getIsbn());
@@ -59,25 +47,40 @@ public class BorrowBookHandler {
 		inputs.put("title",book.getTitle());
 		inputs.put("genre",book.getGenre_id());
 		bookHandler.update(inputs);
-		
 
-		Message.success("Remove from cart success !");
 		return true;
 	}
 	
 	public boolean borrowBook() {
-		Borrow borrow = new Borrow();
-		borrow.setMemberId(Session.user.getId());
-		borrow.setStatus("Pending");
+		if(carts.getCart().isEmpty()) {
+			Message.error("Carts is empty !");
+			return false;
+		}
+		Borrow borrow = new Borrow(Session.user.getId(),"Pending");
 		borrow.insert();
 		
-		List<Book> theBooks = carts.getCart();
+		List<Book> theBooks = getCart();
 		for (Book book : theBooks) {
 			new BorrowItem(borrow.getId(),book.getId()).insert();
 		}
-		Message.success("Borrow success !");
 		return true;
 	}
+	
+	public boolean removeCart(Book book) {
+		carts.removeCart(book);
+		BookHandler bookHandler = new BookHandler();
+		HashMap<String, String> inputs = new HashMap<String, String>();
+		inputs.put("isbn",book.getIsbn());
+		Integer a = 1;
+		inputs.put("quantity",a.toString());
+		inputs.put("title",book.getTitle());
+		inputs.put("genre",book.getGenre_id());
+		bookHandler.update(inputs);
+
+		return true;
+	}
+	
+	
 	
 	
 	

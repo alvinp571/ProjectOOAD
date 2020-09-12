@@ -1,9 +1,13 @@
 package models;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
+import helper.Session;
 import mySQLConnector.Connect;
 
 public class Borrow {
@@ -52,6 +56,43 @@ public class Borrow {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public List<Borrow> getAcceptStatus(Date date,boolean isOnlyCurrentMember){
+		String query = "";
+		if(!isOnlyCurrentMember) {
+			query = String.format("SELECT id,member_id,status FROM borrows WHERE status = 'Accepted'");
+		}else {
+			query = String.format("SELECT id,member_id,status FROM borrows WHERE status = 'Accepted' AND member_id = '%s'",Session.user.getId());
+		}
+		ResultSet rs = connect.executeQuery(query);
+		List<Borrow> bookBorrows = new ArrayList<Borrow>();
+		try {
+			while(rs.next()) {
+				bookBorrows.add(new Borrow(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return bookBorrows;
+	}
+	public List<Borrow> getPendingStatus(boolean isOnlyCurrentMember){
+		String query = "";
+		if(!isOnlyCurrentMember) {
+			query = String.format("SELECT id,member_id,status FROM borrows WHERE status = 'Pending'",status);
+		}else {
+			query = String.format("SELECT id,member_id,status FROM borrows WHERE status = 'Pending' AND member_id = '%s'",Session.user.getId());
+		}
+		ResultSet rs = connect.executeQuery(query);
+		List<Borrow> bookBorrows = new ArrayList<Borrow>();
+		try {
+			while(rs.next()) {
+				bookBorrows.add(new Borrow(rs));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return bookBorrows;
 	}
 	
 	public String getId() {
