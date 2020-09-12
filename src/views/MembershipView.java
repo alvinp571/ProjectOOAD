@@ -88,6 +88,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import controllers.BookHandler;
+import controllers.BorrowBookHandler;
+import controllers.BorrowTransactionHandler;
 import views.base.BaseInternalView;
 import views.base.BaseView;
 
@@ -109,8 +111,8 @@ public final class MembershipView extends BaseView {
   
   private BaseInternalView viewBook;
   private BaseInternalView borrowBook;
-  private BaseInternalView viewPendingBorrowBookMembership;
-  private BaseInternalView viewBorrowHistoryMembership;
+  private BaseInternalView viewPendingBorrowBook;
+  private BaseInternalView viewBorrowHistory;
 
   public MembershipView() {
     super("Membership", Boolean.TRUE);
@@ -231,10 +233,10 @@ public final class MembershipView extends BaseView {
 
     	        @Override
     	        public void actionPerformed(ActionEvent e) {
-    	        	if(viewPendingBorrowBookMembership == null || viewPendingBorrowBookMembership.isClosed()) {
-    	        		viewPendingBorrowBookMembership = new ViewPendingBorrowBookAdmin();
-    	        		desktopPane.add(viewPendingBorrowBookMembership);
-    	        		viewPendingBorrowBookMembership.showForm();
+    	        	if(viewPendingBorrowBook == null || viewPendingBorrowBook.isClosed()) {
+    	        		viewPendingBorrowBook = new BorrowTransactionHandler().showBorrowForm();
+    	        		desktopPane.add(viewPendingBorrowBook);
+    	        		viewPendingBorrowBook.showForm();
     	        	}
     	        }
     	      }
@@ -249,10 +251,10 @@ public final class MembershipView extends BaseView {
 
     	        @Override
     	        public void actionPerformed(ActionEvent e) {
-    	        	if(viewBorrowHistoryMembership == null || viewBorrowHistoryMembership.isClosed()) {
-    	        		viewBorrowHistoryMembership = new ViewBorrowHistoryMembership();
-    	        		desktopPane.add(viewBorrowHistoryMembership);
-    	        		viewBorrowHistoryMembership.showForm();
+    	        	if(viewBorrowHistory == null || viewBorrowHistory.isClosed()) {
+    		        	viewBorrowHistory = new BorrowTransactionHandler().showBorrowHistoryForm();
+    	        		desktopPane.add(viewBorrowHistory);
+    	        		viewBorrowHistory.showForm();
     	        	}
     	        }
     	      }

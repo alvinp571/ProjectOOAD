@@ -110,6 +110,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import controllers.AuthController;
+import controllers.BorrowTransactionHandler;
 import controllers.MemberHandler;
 import views.base.BaseInternalView;
 import views.base.BaseView;
@@ -132,7 +133,7 @@ public final class ManagerView extends BaseView {
   
   private ViewEmployee viewEmployee;
   private BaseInternalView viewMembership;
-  private BaseInternalView viewBorrowHistoryManager;
+  private BaseInternalView viewBorrowHistory;
   
   public ManagerView() {
     super("Manager", Boolean.TRUE);
@@ -146,7 +147,7 @@ public final class ManagerView extends BaseView {
     mManage = new JMenu("Manage");
 
     miLogout = new JMenuItem("Logout");
-    miViewBorrowingHistory = new JMenuItem("View Borrowing History");
+    miViewBorrowingHistory = new JMenuItem("View Borrow History");
     miViewEmployees = new JMenuItem("View Employees");
     miViewMembership = new JMenuItem("View Membership");
 
@@ -213,12 +214,11 @@ public final class ManagerView extends BaseView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-        	if(viewBorrowHistoryManager == null || viewBorrowHistoryManager.isClosed()) {
-        		viewBorrowHistoryManager = new ViewBorrowHistoryAdminAndManager();
-        		desktopPane.add(viewBorrowHistoryManager);
-        		viewBorrowHistoryManager.showForm();
+        	if(viewBorrowHistory == null || viewBorrowHistory.isClosed()) {
+	        	viewBorrowHistory = new BorrowTransactionHandler().showBorrowHistoryForm();
+        		desktopPane.add(viewBorrowHistory);
+        		viewBorrowHistory.showForm();
         	}
-        
         }
       }
     );

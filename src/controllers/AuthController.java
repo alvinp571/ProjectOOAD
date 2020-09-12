@@ -42,7 +42,7 @@ public class AuthController {
 		String roles = Session.showRoleName();
 		if(roles.equals("Manager")) {
 			return new ManagerView();
-		}else if(roles.equals("Adminstrator")) {
+		}else if(roles.equals("Administrator")) {
 			return new AdministratorView();
 		}else if(roles.equals("Human Capital")) {
 			return new HumanCapitalView();
