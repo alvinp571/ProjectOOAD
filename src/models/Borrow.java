@@ -6,7 +6,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import helper.Session;
 import mySQLConnector.Connect;
 
@@ -76,6 +75,7 @@ public class Borrow {
 		}
 		return bookBorrows;
 	}
+	
 	public List<Borrow> getPendingStatus(boolean isOnlyCurrentMember){
 		String query = "";
 		if(!isOnlyCurrentMember) {
@@ -118,6 +118,5 @@ public class Borrow {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-	
 	
 }

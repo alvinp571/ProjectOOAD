@@ -12,15 +12,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import views.base.BaseView;
 
-/**
- * Main Form
- *
- * @author kevinsudut <kevinsuryaw@gmail.com>
- */
 public final class MainForm extends BaseView {
-  /**
-   *
-   */
+
   private static final long serialVersionUID = 1L;
 
   private JMenuBar menuBar;
@@ -44,9 +37,7 @@ public final class MainForm extends BaseView {
 
     desktopPane =
       new JDesktopPane() {
-        /**
-         *
-         */
+
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -81,9 +72,7 @@ public final class MainForm extends BaseView {
   public void addListener() {
     miLogout.addActionListener(
       new AbstractAction() {
-        /**
-         *
-         */
+
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -96,9 +85,7 @@ public final class MainForm extends BaseView {
 
     miCourse.addActionListener(
       new AbstractAction() {
-        /**
-         *
-         */
+
         private static final long serialVersionUID = 1L;
 
         @Override

@@ -4,17 +4,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import mySQLConnector.Connect;
 
 public class Member {
+	
 	private String user_id,address,member_since;
 	
 	private Connect connect = Connect.getInstance();
 	
-	public Member() {
-		// TODO Auto-generated constructor stub
-	}
+	public Member() {}
 	
 	public List<Member> all(){
 		String query = String.format("SELECT * FROM members");
@@ -45,7 +43,6 @@ public class Member {
 		this.address = address;
 	}
 
-
 	public Member createMembership() {
 		String query = String.format("INSERT INTO members(user_id,address) VALUE('%s','%s')",user_id,address);
 		connect.executeUpdate(query);
@@ -75,6 +72,5 @@ public class Member {
 	public void setMember_since(String member_since) {
 		this.member_since = member_since;
 	}
-	
 	
 }

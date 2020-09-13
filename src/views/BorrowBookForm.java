@@ -11,7 +11,6 @@ import controllers.BorrowBookHandler;
 import controllers.GenreHandler;
 import models.Book;
 import models.Genre;
-
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -29,15 +28,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.MouseInputAdapter;
 import views.base.BaseInternalView;
 
-/**
- * Manage Course Form
- *
- * @author kevinsudut <kevinsuryaw@gmail.com>
- */
 public final class BorrowBookForm extends BaseInternalView {
-  /**
-   *
-   */
+	
   private static final long serialVersionUID = 1L;
 
   private LabelTitle title;
@@ -58,6 +50,7 @@ public final class BorrowBookForm extends BaseInternalView {
   private GenreHandler genreHandler = new GenreHandler();
   private List<Genre> theGenres = genreHandler.getAll();
   private BorrowBookHandler borrowHandler = new BorrowBookHandler();
+  
   @Override
   public void initializeComponent() {
 	  /*
@@ -119,7 +112,6 @@ public final class BorrowBookForm extends BaseInternalView {
     /**
      * Initialize Component for Insert Form
      */
-    
     lblInsertName = new JLabel("Book Name");
     lblSelectInsertName = new JLabel("Please Choose Book");
 
@@ -136,7 +128,6 @@ public final class BorrowBookForm extends BaseInternalView {
     /**
      * Initialize Component for Update Form
      */
-
     lblRemoveName = new JLabel("Book Name");
     lblSelectRemoveName = new JLabel("Please Choose Book Cart");
     
@@ -153,7 +144,6 @@ public final class BorrowBookForm extends BaseInternalView {
     /**
      * Initialize Component for Delete Form
      */
-    
     btnBorrowBook = new JButton("Borrow book");
     close = new ButtonInternalClose();
   }
@@ -239,9 +229,7 @@ public final class BorrowBookForm extends BaseInternalView {
     
     btnInsert.addActionListener(
       new AbstractAction() {
-        /**
-         *
-         */
+
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -270,9 +258,7 @@ public final class BorrowBookForm extends BaseInternalView {
 
     btnRemove.addActionListener(
       new AbstractAction() {
-        /**
-         *
-         */
+
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -302,9 +288,7 @@ public final class BorrowBookForm extends BaseInternalView {
 
     btnBorrowBook.addActionListener(
       new AbstractAction() {
-        /**
-         *
-         */
+
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -338,4 +322,5 @@ public final class BorrowBookForm extends BaseInternalView {
 		lblSelectRemoveName.setText("Please Choose Book Cart");
 		btnRemove.setEnabled(false);
   }
+  
 }

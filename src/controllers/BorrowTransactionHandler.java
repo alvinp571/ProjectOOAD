@@ -2,9 +2,7 @@ package controllers;
 
 import java.util.Date;
 import java.util.List;
-
 import javax.print.attribute.standard.MediaSize.ISO;
-
 import helper.Session;
 import models.Borrow;
 import models.BorrowItem;
@@ -13,6 +11,7 @@ import views.ViewPendingBorrowBook;
 import views.base.BaseInternalView;
 
 public class BorrowTransactionHandler {
+	
 	private Borrow borrow = new Borrow();
 	private BorrowItem borrowItem = new BorrowItem();
 	
@@ -44,6 +43,8 @@ public class BorrowTransactionHandler {
 		if(Session.showRoleName().equals("Membership")) {
 			isOnlyCurrentMember = true;
 		}
+		
 		return borrow.getAcceptStatus(date, isOnlyCurrentMember);
 	}
+	
 }

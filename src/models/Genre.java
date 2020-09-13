@@ -5,10 +5,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-
 import mySQLConnector.Connect;
 
 public class Genre {
+	
 	private String id,type;
 	private Connect connect = Connect.getInstance();
 	
@@ -29,9 +29,7 @@ public class Genre {
 		return theGenres;
 	}
 	
-	public Genre() {
-		// TODO Auto-generated constructor stub
-	}
+	public Genre() {}
 
 	public Genre insert() {
 		String query = String.format("INSERT INTO genres VALUES('%s','%s')",id,type);
@@ -75,6 +73,5 @@ public class Genre {
 	public void setType(String type) {
 		this.type = type;
 	}
-	
 	
 }

@@ -1,10 +1,7 @@
 package controllers;
 
-
 import java.util.HashMap;
-
 import java.util.Set;
-
 import components.Message;
 import helper.Session;
 import models.Member;
@@ -19,6 +16,7 @@ import views.RegisterForm;
 import views.base.IView;
 
 public class AuthController {
+	
 	public IView showLoginForm() {
 		return new LoginForm();
 	}
@@ -34,28 +32,21 @@ public class AuthController {
 			Message.success("Welcome");
 			return true;
 		}
+		
 		Message.error("Invalid username or password ! ");
 		return false;
 	}
 	
 	public IView showWhichForm(String username) {
 		String roles = Session.showRoleName();
-		if(roles.equals("Manager")) {
-			return new ManagerView();
-		}else if(roles.equals("Administrator")) {
-			return new AdministratorView();
-		}else if(roles.equals("Human Capital")) {
-			return new HumanCapitalView();
-		}else if(roles.equals("Membership")) {
-			return new MembershipView();
-		}else if(roles.equals("Purchasing")) {
-			return new PurchasingView();
-		}
-		System.out.println("Login gagal");
+		if(roles.equals("Manager")) return new ManagerView();
+		else if(roles.equals("Administrator")) return new AdministratorView();
+		else if(roles.equals("Human Capital")) return new HumanCapitalView();
+		else if(roles.equals("Membership")) return new MembershipView();
+		else if(roles.equals("Purchasing")) return new PurchasingView();
+		else system.out.println("Login gagal");
 		return showLoginForm();
 	}
-	
-	
 	
 	public boolean register(HashMap<String, String> inputs) {
 		Set<String> keys = inputs.keySet();
@@ -78,17 +69,18 @@ public class AuthController {
 			return false;
 		}
 		
-		
 		//insert to database
 		UserHandler userhandler = new UserHandler();
 		User user = userhandler.insert(inputs);
 		if(user==null) {
 			return false;
 		}
+		
 		String id= user.getId();
 		Member member = new Member(id,inputs.get("address"));
 		member.createMembership();
 
 		return true;
 	}
+	
 }

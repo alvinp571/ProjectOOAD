@@ -16,9 +16,7 @@ public class User {
 	
 	private Connect connect = Connect.getInstance();
 	
-	public User() {
-		// TODO Auto-generated constructor stub
-	}
+	public User() {}
 	
 	public User(ResultSet rs) {
 		try {

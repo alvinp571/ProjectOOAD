@@ -67,9 +67,7 @@ public class CreateGenre extends BaseView{
 	  public void addListener() {
 	    btnCreate.addActionListener(
 	      new AbstractAction() {
-	        /**
-	         *
-	         */
+
 	        private static final long serialVersionUID = 1L;
 
 	        @Override
@@ -88,9 +86,7 @@ public class CreateGenre extends BaseView{
 
 	    btnClose.addActionListener(
 	      new AbstractAction() {
-	        /**
-	         *
-	         */
+
 	        private static final long serialVersionUID = 1L;
 
 	        @Override
@@ -100,4 +96,5 @@ public class CreateGenre extends BaseView{
 	      }
 	    );
 	  }
+	  
 }

@@ -4,6 +4,7 @@ import java.awt.Font;
 import javax.swing.JLabel;
 
 public class LabelTitle {
+	
 	private JLabel label;
 	
 	public LabelTitle(String text) {

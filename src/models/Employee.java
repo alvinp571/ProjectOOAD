@@ -1,22 +1,19 @@
 package models;
 
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import mySQLConnector.Connect;
 
 public class Employee {
+	
 	private String id,status;
 	private Integer salary;
 	
 	private Connect connect = Connect.getInstance();
 	
-	public Employee() {
-		// TODO Auto-generated constructor stub
-	}
+	public Employee() {}
 
 	public Employee(String user_id,String status,Integer salary) {
 		super();
@@ -99,6 +96,5 @@ public class Employee {
 	public void setSalary(int salary) {
 		this.salary = salary;
 	}
-	
 	
 }

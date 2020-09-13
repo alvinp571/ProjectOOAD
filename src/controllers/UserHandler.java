@@ -11,11 +11,8 @@ public class UserHandler {
 	
 	public User insert(HashMap<String, String> inputs) {
 		String roles;
-		if(Session.user == null) {
-			roles = "Membership";
-		}else {
-			roles = inputs.get("role");
-		}
+		if(Session.user == null) roles = "Membership";
+		else roles = inputs.get("role");
 		
 		Role role = new Role().getByName(roles);
 		if(role==null) {
@@ -27,9 +24,10 @@ public class UserHandler {
 		if(!user.checkUser(inputs.get("username"),inputs.get("password"))) {
 			user.insert();
 			return user;
-		}else {
+		} else {
 			Message.error("Username is taken!");
 			return null;
 		}
 	}
+	
 }

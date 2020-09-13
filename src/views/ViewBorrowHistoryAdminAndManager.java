@@ -27,15 +27,8 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.MouseInputAdapter;
 import views.base.BaseInternalView;
 
-/**
- * Manage Course Form
- *
- * @author kevinsudut <kevinsuryaw@gmail.com>
- */
 public final class ViewBorrowHistoryAdminAndManager extends BaseInternalView {
-  /**
-   *
-   */
+
   private static final long serialVersionUID = 1L;
 
   private LabelTitle title;
@@ -91,7 +84,6 @@ public final class ViewBorrowHistoryAdminAndManager extends BaseInternalView {
     /**
      * Initialize Component for Insert Form
      */
-    
     lblInsertCode = new JLabel("Course Code");
     lblInsertName = new JLabel("Course Name");
     lblInsertCredit = new JLabel("Course Credit");
@@ -158,7 +150,6 @@ public final class ViewBorrowHistoryAdminAndManager extends BaseInternalView {
     /**
      * Initialize Component for Delete Form
      */
-
     lblDeleteCode = new JLabel("Course Code");
     lblSelectDeleteCode = new JLabel("Please Choose Course Code");
     btnDelete = new JButton("Delete");

@@ -1,9 +1,7 @@
 package controllers;
 
 import java.util.HashMap;
-
 import java.util.List;
-
 import components.Message;
 import models.Genre;
 import views.CreateGenre;
@@ -29,6 +27,7 @@ public class GenreHandler {
 		if(theGenres.isEmpty()) {
 			Message.error("Genre is empty !");
 		}
+		
 		return theGenres;
 	}
 	
@@ -48,7 +47,9 @@ public class GenreHandler {
 			Message.error("Name cannot be empty !");
 			return false;
 		}
+		
 		this.insert(inputs);
 		return true;
 	}
+	
 }

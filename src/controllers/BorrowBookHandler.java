@@ -1,10 +1,8 @@
 package controllers;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.List;
-
 import components.Message;
 import helper.Session;
 import models.Book;
@@ -38,6 +36,7 @@ public class BorrowBookHandler {
 			Message.error("Max borrow is 10 books !");
 			return false;
 		}
+		
 		carts.AddCart(book);
 		BookHandler bookHandler = new BookHandler();
 		HashMap<String, String> inputs = new HashMap<String, String>();
@@ -56,6 +55,7 @@ public class BorrowBookHandler {
 			Message.error("Carts is empty !");
 			return false;
 		}
+		
 		Borrow borrow = new Borrow(Session.user.getId(),"Pending");
 		borrow.insert();
 		
@@ -63,10 +63,12 @@ public class BorrowBookHandler {
 		for (Book book : theBooks) {
 			new BorrowItem(borrow.getId(),book.getId()).insert();
 		}
+		
 		return true;
 	}
 	
 	public boolean removeCart(Book book) {
+		//TODO no false?
 		carts.removeCart(book);
 		BookHandler bookHandler = new BookHandler();
 		HashMap<String, String> inputs = new HashMap<String, String>();
@@ -79,9 +81,5 @@ public class BorrowBookHandler {
 
 		return true;
 	}
-	
-	
-	
-	
 	
 }

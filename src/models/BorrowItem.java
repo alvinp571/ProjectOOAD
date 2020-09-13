@@ -4,7 +4,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import mySQLConnector.Connect;
 
 public class BorrowItem {
@@ -12,8 +11,7 @@ public class BorrowItem {
 	
 	private Connect connect = Connect.getInstance();
 	
-	public BorrowItem() {
-	}
+	public BorrowItem() {}
 
 	public BorrowItem(String borrow_id, String book_id) {
 		super();
@@ -44,6 +42,7 @@ public class BorrowItem {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return theBorrowItems;
 	}
 	
@@ -75,6 +74,5 @@ public class BorrowItem {
 	public void setBook_id(String book_id) {
 		this.book_id = book_id;
 	}
-	
 	
 }

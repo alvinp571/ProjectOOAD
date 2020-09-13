@@ -15,15 +15,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import views.base.BaseView;
 
-/**
- * Login Form
- * 
- * @author kevinsudut <kevinsuryaw@gmail.com>
- */
 public final class LoginForm extends BaseView {
-  /**
-   *
-   */
+
   private static final long serialVersionUID = 1L;
 
   private LabelTitle title;
@@ -78,9 +71,7 @@ public final class LoginForm extends BaseView {
   public void addListener() {
     btnLogin.addActionListener(
       new AbstractAction() {
-        /**
-         *
-         */
+
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -96,9 +87,7 @@ public final class LoginForm extends BaseView {
 
     btnRegister.addActionListener(
       new AbstractAction() {
-        /**
-         *
-         */
+
         private static final long serialVersionUID = 1L;
 
         @Override

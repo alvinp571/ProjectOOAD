@@ -17,15 +17,8 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import views.base.BaseView;
 
-/**
- * Register Form
- * 
- * @author kevinsudut <kevinsuryaw@gmail.com>
- */
 public final class RegisterForm extends BaseView {
-  /**
-   *
-   */
+
   private static final long serialVersionUID = 1L;
 
   private LabelTitle title;
@@ -99,9 +92,7 @@ public final class RegisterForm extends BaseView {
   public void addListener() {
     btnRegister.addActionListener(
       new AbstractAction() {
-        /**
-         *
-         */
+
         private static final long serialVersionUID = 1L;
 
         @Override
@@ -126,9 +117,7 @@ public final class RegisterForm extends BaseView {
 
     btnClose.addActionListener(
       new AbstractAction() {
-        /**
-         *
-         */
+
         private static final long serialVersionUID = 1L;
 
         @Override

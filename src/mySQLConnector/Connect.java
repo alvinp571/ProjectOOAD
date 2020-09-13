@@ -5,22 +5,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 public class Connect {
+	
 	private String username = "root";
 	private String password = "";
 	private String database= "cobasweebookdao";
 	private String host = "localhost:3306";
 	private String connection = String.format("jdbc:mysql://%s/%s",host,database);
 	
-	
-	
 	//java.sql
 	private java.sql.Connection con;
 	private Statement st;
 	
-	//Design Pattern -> Singleton
-	private static Connect instance;
+	private static Connect instance; //Singleton Design Pattern
 	
 	//public
 	public Connect() {
@@ -33,8 +30,6 @@ public class Connect {
 		}
 	}
 	
-	//synchronized -> thread save
-	//static-> biar bisa diaskes tanpa new object
 	public synchronized static Connect getInstance() {
 		if(instance==null) {
 			instance = new Connect();
@@ -42,9 +37,6 @@ public class Connect {
 		return instance;
 	}
 	
-	
-	
-	//ExecuteQuery && ExecuteUpdate
 	public ResultSet executeQuery(String query) {
 		try {
 			return st.executeQuery(query);
@@ -62,4 +54,5 @@ public class Connect {
 		}
 		return 0;
 	}
+	
 }

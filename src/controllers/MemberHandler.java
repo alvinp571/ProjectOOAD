@@ -7,6 +7,7 @@ import views.ViewMembership;
 import views.base.BaseInternalView;
 
 public class MemberHandler {
+	
 	public BaseInternalView showMembershipForm() {
 		return new ViewMembership();
 	}
@@ -16,4 +17,5 @@ public class MemberHandler {
 		List<Member> theMembers = member.all();
 		return theMembers;
 	}
+	
 }

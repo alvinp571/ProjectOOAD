@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.HashMap;
 
 public class CartStorage {
+	
 	private HashMap<String,Book> carts;
 	
 	public CartStorage() {
@@ -24,4 +25,5 @@ public class CartStorage {
 		carts.remove(book.getId());
 		return;
 	}
+	
 }

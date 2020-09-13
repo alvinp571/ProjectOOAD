@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-
 import components.Message;
 import models.Employee;
 import models.User;
@@ -49,16 +48,19 @@ public class EmployeeHandler {
 		if(user==null) {
 			return null;
 		}
+		
 		int salary = 0;
 		try {
 			salary = Integer.parseInt(inputs.get("salary"));
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		}
+		
 		if(findById(user.getId())!=null) {
 			Message.error("Employee already exist !");
 			return null;
-		}		
+		}	
+		
 		Employee employee = new Employee(user.getId(),inputs.get("status"),salary).insert();
 		return employee;
 	}
@@ -70,6 +72,7 @@ public class EmployeeHandler {
 			e = e.update();
 			return e;
 		}
+		
 		return null;
 	}
 	
@@ -80,6 +83,7 @@ public class EmployeeHandler {
 			e = e.update();
 			return e;
 		}
+		
 		return null;
 	}
 	
@@ -92,6 +96,7 @@ public class EmployeeHandler {
 			Employee employee = insert(inputs);
 			return employee;
 		}
+		
 		return null;
 	}
 	
@@ -104,6 +109,7 @@ public class EmployeeHandler {
 			Employee employee = insert(inputs);
 			return employee;
 		}
+		
 		return null;
 	}
 	
@@ -134,6 +140,5 @@ public class EmployeeHandler {
 		
 		return true;
 	}
-	
 	
 }
