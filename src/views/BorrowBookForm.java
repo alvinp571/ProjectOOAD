@@ -90,8 +90,7 @@ public final class BorrowBookForm extends BaseInternalView {
     	tHeaderCart.add("Genre");
     	tHeaderCart.add("Title");
     	tHeaderCart.add("ISBN");
-    	tHeaderCart.add("Quantity");
-    
+
     Vector<Vector<Object>> tRowsCart = new Vector<>();
     
     BorrowBookHandler borrowHandlerCart = new BorrowBookHandler();
@@ -112,7 +111,7 @@ public final class BorrowBookForm extends BaseInternalView {
     /**
      * Initialize Component for Insert Form
      */
-    lblInsertName = new JLabel("Book Name");
+    lblInsertName = new JLabel("Book");
     lblSelectInsertName = new JLabel("Please Choose Book");
 
     btnInsert = new JButton("Add to Cart");
@@ -128,7 +127,7 @@ public final class BorrowBookForm extends BaseInternalView {
     /**
      * Initialize Component for Update Form
      */
-    lblRemoveName = new JLabel("Book Name");
+    lblRemoveName = new JLabel("Book");
     lblSelectRemoveName = new JLabel("Please Choose Book Cart");
     
     btnRemove = new JButton("Remove Cart");
@@ -263,7 +262,7 @@ public final class BorrowBookForm extends BaseInternalView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-        	int result = Message.confirm("Are you sure want to borrow all the book from cart ?", "Borrow From Cart");
+        	int result = Message.confirm("Are you sure want remove the book from cart ?", "Remove From Cart");
         	if(result==JOptionPane.YES_OPTION) {
         		BookHandler bH = new BookHandler();
         		Book b = bH.getByIsbn(lblSelectRemoveName.getText());

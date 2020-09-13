@@ -11,6 +11,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import controllers.AuthController;
 import controllers.BookHandler;
 import controllers.BorrowBookHandler;
 import controllers.BorrowTransactionHandler;
@@ -94,8 +95,8 @@ public final class MembershipView extends BaseView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          // TODO Auto-generated method stub
-
+        	dispose();
+        	new AuthController().showLoginForm().showForm();
         }
       }
     );

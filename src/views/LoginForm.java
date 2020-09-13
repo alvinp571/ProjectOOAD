@@ -31,7 +31,7 @@ public final class LoginForm extends BaseView {
 
   @Override
   public void initializeComponent() {
-    title = new LabelTitle("BCA Learning Institute");
+    title = new LabelTitle("SWeebook Library System");
     lblUsername = new JLabel("Username");
     lblPassword = new JLabel("Password");
     txtUsername = new JTextField();

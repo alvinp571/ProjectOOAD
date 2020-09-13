@@ -50,7 +50,7 @@ public final class ManageBook extends BaseInternalView {
   
  	//Constructor
  	public ManageBook() {
- 		super("Restock Book", 1000, 350);
+ 		super("Manage Book", 1000, 350);
  	}
 
  	//Useful handlers
@@ -81,7 +81,7 @@ public final class ManageBook extends BaseInternalView {
 		}
     
 	    table = new Table(tHeader, tRows);
-	    title = new LabelTitle("Restock Book");
+	    title = new LabelTitle("Manage Book");
 	    tabbedPane = new JTabbedPane();
 
 	    

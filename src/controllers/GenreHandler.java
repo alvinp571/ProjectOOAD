@@ -36,7 +36,7 @@ public class GenreHandler {
 	}
 	
 	public Genre insert(HashMap<String, String> inputs) {
-		Genre genre = new Genre(inputs.get("name"));
+		Genre genre = new Genre(inputs.get("type"));
 		genre.insert();
 		Message.success("Successfully create a new genre");
 		return genre;

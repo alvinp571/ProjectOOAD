@@ -186,13 +186,12 @@ public final class ViewGenre extends BaseInternalView {
     btnInsert = new JButton("Insert");
 
     Component[][] insert = {
-      new Component[] { lblInsertType},
-      new Component[] { txtInsertType},
+      new Component[] { lblInsertType },
+      new Component[] { txtInsertType },
     };
 
     
     panelAdd = new PanelForm(insert, btnInsert, new Dimension(350, 350));
-    System.out.println("yoiiiiii");
 
     close = new ButtonInternalClose();
   }

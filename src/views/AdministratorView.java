@@ -10,6 +10,8 @@ import javax.swing.JDesktopPane;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+
+import controllers.AuthController;
 import controllers.BookHandler;
 import controllers.BorrowTransactionHandler;
 import controllers.MemberHandler;
@@ -89,7 +91,8 @@ public final class AdministratorView extends BaseView {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					// TODO ga ada action?
+					dispose();
+		        	new AuthController().showLoginForm().showForm();
 				}
 			}
 		);

@@ -2,6 +2,7 @@ package models;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 import mySQLConnector.Connect;
@@ -26,7 +27,7 @@ public class BorrowItem {
 	}
 	
 	public BorrowItem update() {
-		String query = String.format("UPDATE borrow_items SET return_timestamp = NOW() WHERE id = '%s'",borrow_id);
+		String query = String.format("UPDATE borrow_items SET return_timestamp = NOW() WHERE borrow_id = '%s' AND book_id = '%s'",borrow_id, book_id);
 		connect.executeUpdate(query);
 		return this;
 	}
@@ -47,15 +48,17 @@ public class BorrowItem {
 	}
 	
 	public boolean isBookAlreadyReturn(String id,String BookId) {
-		String query = String.format("SELECT return_timestamp FROM borrow_items WHERE borrow_id = '%s' AND book_id = '%s'",borrow_id,book_id);
+		String query = String.format("SELECT * FROM borrow_items WHERE borrow_id = '%s' AND book_id = '%s'",id,BookId);
 		ResultSet rs = connect.executeQuery(query);
 		try {
-			if(rs.getDate("return_timestamp")==null) {
+			rs.next();
+			if (rs.getString(3) == null) {
 				return false;
 			}
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
 		return true;
 	}
 	
@@ -75,4 +78,19 @@ public class BorrowItem {
 		this.book_id = book_id;
 	}
 	
+	public String getReturnTime(String id, String BookId) {
+		String query = String.format("SELECT return_timestamp FROM borrow_items WHERE borrow_id = '%s' AND book_id = '%s'",id,BookId);
+		ResultSet rs = connect.executeQuery(query);
+		
+		String returnTime = "";
+		try {
+			rs.next();
+			returnTime = rs.getString("return_timestamp");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		};
+
+		return returnTime;
+	}
+
 }

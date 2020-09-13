@@ -68,7 +68,6 @@ public class BorrowBookHandler {
 	}
 	
 	public boolean removeCart(Book book) {
-		//TODO no false?
 		carts.removeCart(book);
 		BookHandler bookHandler = new BookHandler();
 		HashMap<String, String> inputs = new HashMap<String, String>();

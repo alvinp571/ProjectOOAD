@@ -132,4 +132,19 @@ public class Borrow {
 		this.status = status;
 	}
 	
+	public String getBorrowTimeStamp(String id) {
+		String query = String.format("SELECT borrow_timestamp FROM borrows WHERE id = '%s'",id);
+		ResultSet rs = connect.executeQuery(query);
+		
+		String borrowTime = "";
+		try {
+			rs.next();
+			borrowTime = rs.getString("borrow_timestamp");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		};
+
+		return borrowTime;
+	}
+	
 }
