@@ -135,8 +135,14 @@ public final class ManageBook extends BaseInternalView {
  	}
 
 	public Vector<Object> addRow(Book b) {
+		/*
+		 * This method is used to add a new row to the book table
+		 * @param Book insertedBook
+		 * @return Vector<Object> newTableRow
+		 */
 		Vector<Object> forEachRow = new Vector<>();
 		forEachRow.add(b.getId());
+		
 		String genreType = showRoleName(b);
 		forEachRow.add(genreType);
 		forEachRow.add(b.getTitle());
@@ -146,6 +152,7 @@ public final class ManageBook extends BaseInternalView {
 	}
 
 	public String showRoleName(Book b) {
+		//TODO
 		String genreType = "";
 		for (Genre genre : theGenres) {
 			if(b.getGenre_id().equals(genre.getId())) {
@@ -158,6 +165,11 @@ public final class ManageBook extends BaseInternalView {
 
 	@Override
 	public void addComponent() {
+		/*
+		 * This method is used to add all created components to the form
+		 * Precondition: all components must have been initialized
+		 * Related method: initializeComponent()
+		 */
 	    tabbedPane.add("Restock Book", panelRestock.getPanel());
 	    tabbedPane.add("Delete Book", panelDelete.getPanel());
 	
