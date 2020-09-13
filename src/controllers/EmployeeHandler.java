@@ -9,6 +9,7 @@ import models.Employee;
 import models.User;
 import views.CreateEmployee;
 import views.ViewEmployee;
+import views.base.BaseInternalView;
 import views.base.IView;
 
 public class EmployeeHandler {
@@ -19,7 +20,7 @@ public class EmployeeHandler {
 		return new CreateEmployee();
 	}
 	
-	public IView showViewEmployeeForm() {
+	public BaseInternalView showViewEmployeeForm() {
 		return new ViewEmployee();
 	}
 	

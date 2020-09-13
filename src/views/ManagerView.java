@@ -14,6 +14,7 @@ import javax.swing.JMenuItem;
 
 import controllers.AuthController;
 import controllers.BorrowTransactionHandler;
+import controllers.EmployeeHandler;
 import controllers.MemberHandler;
 import views.base.BaseInternalView;
 import views.base.BaseView;
@@ -27,7 +28,7 @@ public final class ManagerView extends BaseView {
   private JMenuItem miLogout, miViewBorrowingHistory, miViewEmployees, miViewMembership;
   private JDesktopPane desktopPane;
   
-  private ViewEmployee viewEmployee;
+  private BaseInternalView viewEmployee;
   private BaseInternalView viewMembership;
   private BaseInternalView viewBorrowHistory;
   
@@ -121,7 +122,7 @@ public final class ManagerView extends BaseView {
     	        @Override
     	        public void actionPerformed(ActionEvent e) {
     	        	if(viewEmployee == null || viewEmployee.isClosed()) {
-    	        		viewEmployee = new ViewEmployee();
+    	        		viewEmployee = new EmployeeHandler().showViewEmployeeForm();
     	        		desktopPane.add(viewEmployee);
     	        		viewEmployee.showForm();
     	        	}

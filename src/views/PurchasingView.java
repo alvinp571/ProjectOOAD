@@ -138,7 +138,7 @@ public final class PurchasingView extends BaseView {
 				public void actionPerformed(ActionEvent e) {
 					if(restockBook == null || restockBook.isClosed()) {
     	        		//sementara karena belum ada controller
-    	        		restockBook = new BookHandler().showManageBook();
+    	        		restockBook = new BookHandler().showManageBookForm();
     	        		desktopPane.add(restockBook);
     	        		restockBook.showForm();
     	        	}

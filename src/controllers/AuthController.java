@@ -44,7 +44,9 @@ public class AuthController {
 		else if(roles.equals("Human Capital")) return new HumanCapitalView();
 		else if(roles.equals("Membership")) return new MembershipView();
 		else if(roles.equals("Purchasing")) return new PurchasingView();
-		else system.out.println("Login gagal");
+		else {
+			Message.error("Login Failed !");
+		}
 		return showLoginForm();
 	}
 	

@@ -1,3 +1,6 @@
 /views/
+/components/
 /controllers/
+/env/
 /models/
+/mySQLConnector/

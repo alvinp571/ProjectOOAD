@@ -143,7 +143,7 @@ public final class ManageBook extends BaseInternalView {
 		Vector<Object> forEachRow = new Vector<>();
 		forEachRow.add(b.getId());
 		
-		String genreType = showRoleName(b);
+		String genreType = showGenreName(b);
 		forEachRow.add(genreType);
 		forEachRow.add(b.getTitle());
 		forEachRow.add(b.getIsbn());
@@ -225,7 +225,7 @@ public final class ManageBook extends BaseInternalView {
 						if(b!=null) {
 							int row = searchISBN(txtInsertISBN.getText());
 							if(row >= 0) {
-								String genreType = showRoleName(b);
+								String genreType = showGenreName(b);
 								table.updateRow(row,b.getId(),genreType,b.getTitle(),b.getIsbn(),b.getQuantity().toString());
 							} else {
 								table.addNewRow(addRow(b));

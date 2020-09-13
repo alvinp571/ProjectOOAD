@@ -28,7 +28,7 @@ public class BookHandler {
 		return new ViewBookForm();
 	}
 	
-	public BaseInternalView showManageBook() {
+	public BaseInternalView showManageBookForm() {
 		return new ManageBook();
 	}
 	
@@ -77,12 +77,12 @@ public class BookHandler {
 			
 			if(book.getByIsbn(isbn) == null) {
 				//book does not exist -> insert new book
-				b = insert(inputs);
+				book = insert(inputs);
 			} else {
 				//book exist -> update that book
-				b = update(inputs);
+				book = update(inputs);
 			}
-			return b;
+			return book;
 		}
 		return null;
 	}
@@ -107,7 +107,7 @@ public class BookHandler {
 		 * @param Book theBook, int addQty
 		 * @return null
 		 */
-		book.setQuantity(book.getQuantity()+q);
+		book.setQuantity(book.getQuantity()+qty);
 		return;
 	}
 	
@@ -203,7 +203,7 @@ public class BookHandler {
 		 * @param self-explanatory
 		 * @return Boolean validationStatus
 		 */
-		if (!isStringAllNumber(q)) {
+		if (!isStringAllNumber(quantity)) {
 			Message.error("Quantity must be a number !");
 			return false;
 		}

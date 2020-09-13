@@ -1,30 +1,28 @@
 package views;
 
 import components.ButtonInternalClose;
+
+
 import components.LabelTitle;
 import components.Message;
 import components.PanelForm;
 import components.Table;
-import controllers.BookHandler;
-import controllers.BorrowBookHandler;
 import controllers.BorrowTransactionHandler;
-import controllers.EmployeeHandler;
 import helper.Session;
-import models.Book;
 import models.Borrow;
 import models.BorrowItem;
-import models.Employee;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -32,6 +30,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.MouseInputAdapter;
+
+
 import views.base.BaseInternalView;
 
 public final class ViewBorrowHistory extends BaseInternalView {
@@ -42,8 +42,8 @@ public final class ViewBorrowHistory extends BaseInternalView {
   private Table table,tableBookDetail;
   private JTabbedPane tabbedPane;
   private PanelForm panelFilter, panelBorrowItem, panelReturnBook;
-  private JLabel lblFilterMonth, lblFilterYear, lblBorrowItem, lblReturnBook;
-  private JLabel lblSelectBorrowItem, lblSelectReturnBook;
+  private JLabel lblFilterMonth, lblFilterYear, lblViewDetail, lblReturnBook;
+  private JLabel lblSelectViewDetail, lblSelectReturnBook;
   private JTextField txtFilterMonth, txtFilterYear;
   private JButton btnFilter, btnBorrowItem, btnReturnBook;
   private ButtonInternalClose close;
@@ -63,126 +63,30 @@ public final class ViewBorrowHistory extends BaseInternalView {
 	    
 	    Vector<Vector<Object>> tRows = new Vector<>();
 	    
+	    Date date = null;
+	    List<Borrow> theBorrows = bTH.getAcceptStatus(date);
 	    
-//	    boolean isOnlyCurrentMember = false;
-//	    if(Session.showRoleName().equals("Membership")) {
-//	    	isOnlyCurrentMember = true;
-//	    }
-//	    List<Borrow> theBorrows = bTH.getPendingStatus(isOnlyCurrentMember);
-//	    
-//	    for (Borrow b : theBorrows) {
-//	    	Vector<Object> forEachRow = new Vector<>();
-//			forEachRow.add(b.getId());
-//			forEachRow.add(b.getMemberId());
-//			forEachRow.add(b.getStatus());
-//			tRows.add(forEachRow);
-//		}
+	    for (Borrow b : theBorrows) {
+	    	Vector<Object> forEachRow = new Vector<>();
+			forEachRow.add(b.getId());
+			forEachRow.add(b.getMemberId());
+			forEachRow.add(b.getStatus());
+			tRows.add(forEachRow);
+		}
     
     table = new Table(tHeader, tRows);
     
     Vector<Object> tHeaderDetail = new Vector<>();
     tHeaderDetail.add("Borrow Id");
     tHeaderDetail.add("Book Id");
-//    
+
     Vector<Vector<Object>> tRowsDetail = new Vector<>();
-//    List<Borrow> theBorrowItems = bTH.getBookItem(id);
-//    
-//    for (Borrow b : theBorrows) {
-//    	Vector<Object> forEachRow = new Vector<>();
-//		forEachRow.add(b.getId());
-//		forEachRow.add(b.getMemberId());
-//		forEachRow.add(b.getStatus());
-//		tRows.add(forEachRow);
-//	}
 
     tableBookDetail = new Table(tHeaderDetail, tRowsDetail);
 
-    title = new LabelTitle("Pending Borrow Book");
+    title = new LabelTitle("Borrow Book History");
 
     tabbedPane = new JTabbedPane();
-
-    /**
-     * Initialize Component for Insert Form
-     */
-//    
-//    lblInsertCode = new JLabel("Course Code");
-//    lblInsertName = new JLabel("Course Name");
-//    lblInsertCredit = new JLabel("Course Credit");
-//    txtInsertCode = new JTextField();
-//    txtInsertName = new JTextField();
-//    cbInsertCredit =
-//      new JComboBox<>(
-//        new String[] {
-//          "Choose Course Credit",
-//          "1",
-//          "2",
-//          "4",
-//          "5",
-//          "2/1",
-//          "2/2",
-//          "2/4",
-//          "4/2",
-//        }
-//      );
-//    btnInsert = new JButton("Insert");
-//
-//    Component[][] insert = {
-//      new Component[] { lblInsertCode, lblInsertName, lblInsertCredit },
-//      new Component[] { txtInsertCode, txtInsertName, cbInsertCredit },
-//    };
-//
-//    panelAdd = new PanelForm(insert, btnInsert, new Dimension(350, 350));
-//
-//    /**
-//     * Initialize Component for Update Form
-//     */
-//
-//    lblUpdateCode = new JLabel("Course Code");
-//    lblUpdateName = new JLabel("Course Name");
-//    lblUpdateCredit = new JLabel("Course Credit");
-//    lblSelectUpdateCode = new JLabel("Please Choose Course Code");
-//    txtUpdateName = new JTextField();
-//    txtUpdateName.setEnabled(Boolean.FALSE);
-//    cbUpdateCredit =
-//      new JComboBox<>(
-//        new String[] {
-//          "Choose Course Credit",
-//          "1",
-//          "2",
-//          "4",
-//          "5",
-//          "2/1",
-//          "2/2",
-//          "2/4",
-//          "4/2",
-//        }
-//      );
-//    cbUpdateCredit.setEnabled(Boolean.FALSE);
-//    btnUpdate = new JButton("Update");
-//    btnUpdate.setEnabled(Boolean.FALSE);
-//
-//    Component[][] update = {
-//      new Component[] { lblUpdateCode, lblUpdateName, lblUpdateCredit },
-//      new Component[] { lblSelectUpdateCode, txtUpdateName, cbUpdateCredit },
-//    };
-//
-//    panelAccept = new PanelForm(update, btnUpdate, new Dimension(350, 350));
-//
-//    /**
-//     * Initialize Component for Delete Form
-//     */
-//
-//    lblDeleteCode = new JLabel("Course Code");
-//    lblSelectDeleteCode = new JLabel("Please Choose Course Code");
-//    btnDelete = new JButton("Delete");
-//    btnDelete.setEnabled(Boolean.FALSE);
-//
-//    Component[][] delete = {
-//      new Component[] { lblDeleteCode },
-//      new Component[] { lblSelectDeleteCode },
-//    };
-//
-//    panelFired = new PanelForm(delete, btnDelete, new Dimension(350, 350));
     
     lblFilterMonth = new JLabel("Month");
     lblFilterYear = new JLabel("Year");
@@ -190,7 +94,7 @@ public final class ViewBorrowHistory extends BaseInternalView {
     txtFilterYear = new JTextField();
     
     btnFilter = new JButton("Filter By Month and Year");
-    btnFilter.setEnabled(Boolean.FALSE);
+    btnFilter.setEnabled(Boolean.TRUE);
     
     Component[][] filter = {
           new Component[] { lblFilterMonth, lblFilterYear },
@@ -200,15 +104,15 @@ public final class ViewBorrowHistory extends BaseInternalView {
     
     panelFilter = new PanelForm(filter, btnFilter, new Dimension(350, 350));
     
-    lblBorrowItem = new JLabel("Transaction ID");
-    lblSelectBorrowItem = new JLabel("Please Choose Transaction ID");
+    lblViewDetail = new JLabel("Transaction ID");
+    lblSelectViewDetail = new JLabel("Please Choose Transaction ID");
     
     btnBorrowItem = new JButton("View Borrow Item");
     btnBorrowItem.setEnabled(Boolean.FALSE);
     
     Component[][] borrowItem = {
-    		new Component[] { lblBorrowItem },
-    		new Component[] { lblSelectBorrowItem },
+    		new Component[] { lblViewDetail },
+    		new Component[] { lblSelectViewDetail },
     };
     
     panelBorrowItem = new PanelForm(borrowItem, btnBorrowItem, new Dimension(350, 350));
@@ -231,10 +135,11 @@ public final class ViewBorrowHistory extends BaseInternalView {
 
   @Override
   public void addComponent() {
-	  tabbedPane.add("Filter By Month & Year", panelFilter.getPanel());
 	  tabbedPane.add("View Book Item", panelBorrowItem.getPanel());
 	  if(Session.showRoleName().equals("Membership")) {
 		  tabbedPane.add("Return Book", panelReturnBook.getPanel());
+	  }else {
+		  tabbedPane.add("Filter By Month & Year", panelFilter.getPanel());
 	  }
 
     JPanel pnlCenter = new JPanel(new BorderLayout(8, 8));
@@ -265,7 +170,7 @@ public final class ViewBorrowHistory extends BaseInternalView {
           
           int row = table.getSelectedRow();
           
-          lblSelectBorrowItem.setText(table.getValueAt(row,0));
+          lblSelectViewDetail.setText(table.getValueAt(row,0));
           btnBorrowItem.setEnabled(true);
           
           lblReturnBook.setText(table.getValueAt(row,0));
@@ -298,9 +203,38 @@ public final class ViewBorrowHistory extends BaseInternalView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-        	int result = Message.confirm("Are you sure want to filter transaction by this month and year?", "Accept Pending Request");
+        	int result = Message.confirm("Are you sure want to filter transaction by this month and year?", "Filter Transaction");
         	if(result==JOptionPane.YES_OPTION) {
-
+        		String year = txtFilterYear.getText();
+        		String month = txtFilterMonth.getText();
+        		Integer month1 = Integer.parseInt(month);
+        		System.out.println("Now: "+ month+ ","+year);
+        		String all = "";
+        		if(month1<10) {
+        			all = "01" + "-0" + month + "-" + year + " 00:00:00";
+        		}else {
+        			all = "01" + "-" + month + "-" + year + "00:00:00";
+        		}
+        		SimpleDateFormat SDF = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        		Date date = null;
+        		try {
+					date = SDF.parse(all);
+				} catch (java.text.ParseException e2) {
+					e2.printStackTrace();
+				}
+        		
+        		table.removeAll();
+        		
+        		List<Borrow> theBorrows2 = bTH.getAcceptStatus(date);
+        		for (Borrow b : theBorrows2) {
+        	    	Vector<Object> forEachRow = new Vector<>();
+        			forEachRow.add(b.getId());
+        			forEachRow.add(b.getMemberId());
+        			forEachRow.add(b.getStatus());
+        			table.addNewRow(forEachRow);
+        		}
+        		
+        		refreshForm();
         	}
         }
       }
@@ -315,20 +249,19 @@ public final class ViewBorrowHistory extends BaseInternalView {
 
     	        @Override
     	        public void actionPerformed(ActionEvent e) {
-    	        	int result = Message.confirm("Are you sure want to choose this transaction?", "View Borrow Item");
-    	        	if(result==JOptionPane.YES_OPTION) {
-    	        		//reset table
-    	        		tableBookDetail.removeAll();
-    	        		
-    	        		List<BorrowItem> theBorrowItems = bTH.getBookItem(lblSelectBorrowItem.getText());
-    	        	    
-    	        	    for (BorrowItem b : theBorrowItems) {
-    	        	    	Vector<Object> forEachRow = new Vector<>();
-    	        			forEachRow.add(b.getBorrow_id());
-    	        			forEachRow.add(b.getBook_id());
-    	        			tableBookDetail.addNewRow(forEachRow);
-    	        		}
-    	        	}
+    	        	//reset table
+	        		tableBookDetail.removeAll();
+	        		
+	        		List<BorrowItem> theBorrowItems = bTH.getBookItem(lblSelectViewDetail.getText());
+	        	    
+	        	    for (BorrowItem b : theBorrowItems) {
+	        	    	Vector<Object> forEachRow = new Vector<>();
+	        			forEachRow.add(b.getBorrow_id());
+	        			forEachRow.add(b.getBook_id());
+	        			tableBookDetail.addNewRow(forEachRow);
+	        		}	
+    	        	
+    	        	refreshForm();
     	        }
     	      }
     	    );
@@ -342,7 +275,7 @@ public final class ViewBorrowHistory extends BaseInternalView {
 
     	        @Override
     	        public void actionPerformed(ActionEvent e) {
-    	        	int result = Message.confirm("Are you sure want to return this book?", "Accept Pending Request");
+    	        	int result = Message.confirm("Are you sure want to return this book?", "Return Book");
     	        	if(result==JOptionPane.YES_OPTION) {
 //    	        		BookHandler bH = new BookHandler();
 //    	        		Book b = bH.getByIsbn(lblSelectInsertName.getText());        		
@@ -366,4 +299,20 @@ public final class ViewBorrowHistory extends BaseInternalView {
 
     close.addListener(this);
   }
+  
+  	private void refreshForm() {
+		/*
+		 * This method is self-explanatory
+		 * Refresh means reset the form to its initial condition
+		 */
+		
+	  	lblSelectReturnBook.setText("Please Choose Transaction ID");
+	  	btnReturnBook.setEnabled(false);
+	  
+		lblSelectViewDetail.setText("Please Choose Transaction ID");
+		btnBorrowItem.setEnabled(false);
+
+		txtFilterMonth.setText("");
+		txtFilterYear.setText("");
+	}
 }

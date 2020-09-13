@@ -59,11 +59,24 @@ public class Borrow {
 	
 	public List<Borrow> getAcceptStatus(Date date,boolean isOnlyCurrentMember){
 		String query = "";
-		if(!isOnlyCurrentMember) {
-			query = String.format("SELECT id,member_id,status FROM borrows WHERE status = 'Accepted'");
+		
+		if(date==null) {
+			if(!isOnlyCurrentMember) {
+				query = String.format("SELECT id,member_id,status FROM borrows WHERE status = 'Accepted'");
+			}else {
+				query = String.format("SELECT id,member_id,status FROM borrows WHERE status = 'Accepted' AND member_id = '%s'",Session.user.getId());
+			}
 		}else {
-			query = String.format("SELECT id,member_id,status FROM borrows WHERE status = 'Accepted' AND member_id = '%s'",Session.user.getId());
+			int month = date.getMonth() + 1;
+			int year = date.getYear()+1900;
+			System.out.println(month+","+year);
+			if(!isOnlyCurrentMember) {
+				query = String.format("SELECT id,member_id,status FROM borrows WHERE status = 'Accepted' AND month(borrow_timestamp) = %d AND year(borrow_timestamp) = %d",month,year);
+			}else {
+				query = String.format("SELECT id,member_id,status FROM borrows WHERE status = 'Accepted' AND member_id = '%s' AND month(borrow_timestamp) = %d AND year(borrow_timestamp) = %d",Session.user.getId(),month,year);
+			}
 		}
+		
 		ResultSet rs = connect.executeQuery(query);
 		List<Borrow> bookBorrows = new ArrayList<Borrow>();
 		try {

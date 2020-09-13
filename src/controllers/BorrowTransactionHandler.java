@@ -1,8 +1,8 @@
 package controllers;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import javax.print.attribute.standard.MediaSize.ISO;
 import helper.Session;
 import models.Borrow;
 import models.BorrowItem;
@@ -46,5 +46,9 @@ public class BorrowTransactionHandler {
 		
 		return borrow.getAcceptStatus(date, isOnlyCurrentMember);
 	}
+	
+//	public BorrowItem returnBook(HashMap <String,String> inputs) {
+//		
+//	}
 	
 }
