@@ -5,35 +5,28 @@ import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import views.base.BaseInternalView;
 
-/**
- * Close Internal Button
- *
- * @author kevinsudut <kevinsuryaw@gmail.com>
- */
 public class ButtonInternalClose {
-  private JButton button;
+	
+	private JButton button;
 
-  public ButtonInternalClose() {
-    button = new JButton("Close");
-  }
+	public ButtonInternalClose() {
+		button = new JButton("Close");
+	}
 
-  public JButton getButton() {
-    return button;
-  }
+	public JButton getButton() {
+		return button;
+	}
 
-  public void addListener(BaseInternalView view) {
-    button.addActionListener(
-      new AbstractAction() {
-        /**
-         *
-         */
-        private static final long serialVersionUID = 1L;
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-          view.dispose();
-        }
-      }
-    );
-  }
+	public void addListener(BaseInternalView view) {
+		button.addActionListener(
+				new AbstractAction() {
+					private static final long serialVersionUID = 1L;
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						view.dispose();
+					}
+				}
+			);
+	}
 }

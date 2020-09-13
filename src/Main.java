@@ -1,11 +1,6 @@
 import javax.swing.SwingUtilities;
 import views.LoginForm;
 
-/**
- * Main
- *
- * @author kevinsudut <kevinsuryaw@gmail.com>
- */
 public final class Main implements Runnable {
 
   public Main() {
