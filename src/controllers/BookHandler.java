@@ -66,12 +66,20 @@ public class BookHandler {
 	}
 	
 	public Book decide(HashMap<String,String>inputs) {
-		//TODO documentation
+		/**
+		 * This method is used to decide whether
+		 * the book from inputs is a new book or not
+		 * @param self-explanatory
+		 * @output Book insertedOrupdatedBook OR null (if inputs not valid)
+		 */
 		if(validate(inputs)) {
-			Book b = new Book();
-			if(restockBook(inputs.get("isbn"))==null) {
+			String isbn = inputs.get("isbn");
+			
+			if(book.getByIsbn(isbn) == null) {
+				//book does not exist -> insert new book
 				b = insert(inputs);
 			} else {
+				//book exist -> update that book
 				b = update(inputs);
 			}
 			return b;
@@ -124,15 +132,6 @@ public class BookHandler {
 			return deletedBook.delete();
 		}
 		return false;
-	}
-	
-	public Book restockBook(String isbn) {
-		//TODO
-		Book b = new Book().getByIsbn(isbn);
-		if(b != null) {
-			return b;
-		}
-		return null;
 	}
 	
 	public Boolean areFieldsAllFilled(HashMap<String,String>inputs) {
