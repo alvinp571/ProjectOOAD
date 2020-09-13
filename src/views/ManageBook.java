@@ -151,7 +151,7 @@ public final class ManageBook extends BaseInternalView {
 		return forEachRow;
 	}
 
-	public String showRoleName(Book b) {
+	public String showGenreName(Book b) {
 		//TODO
 		String genreType = "";
 		for (Genre genre : theGenres) {

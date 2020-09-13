@@ -101,21 +101,29 @@ public class BookHandler {
 		return new Book(genre.getId(),inputs.get("title"),inputs.get("isbn"),q).insert();
 	}
 	
-	public void updateQuantity(Book book, int q) {
-		//TODO
+	public void addQty(Book book, int qty) {
+		/*
+		 * This method is a helper for other methods, used for add quantity of a book shortly
+		 * @param Book theBook, int addQty
+		 * @return null
+		 */
 		book.setQuantity(book.getQuantity()+q);
 		return;
 	}
 	
 	public Book update(HashMap<String,String> inputs) {
-		//TODO
+		/*
+		 * This method updates Book, bridges Book model and view
+		 * @param self-explanatory
+		 * @output Book updatedBook
+		 */
 		Book b = book.getByIsbn(inputs.get("isbn"));
 		Integer q = Integer.parseInt(inputs.get("quantity"));
 		if(Session.showRoleName().equals("Purchasing")) {
 			Genre g = new Genre().getByType(inputs.get("genre"));
 			b.setGenre_id(g.getId());		
 		}
-		b.setQuantity(b.getQuantity() + q);
+		addQty(b, q);
 		b.setTitle(inputs.get("title"));
 		b = b.update();
 		return b;
