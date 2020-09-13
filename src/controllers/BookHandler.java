@@ -229,4 +229,16 @@ public class BookHandler {
 		return true;
 	}
 	
+	public Book restockBook(String isbn) {
+		/*
+		 * This method is actually has really minor use
+		 * This is still here to keep the reference to the class diagram
+		 */
+		Book b = new Book().getByIsbn(isbn);
+		if(b != null) {
+			return b;
+		}
+		return null;
+	}
+	
 }
