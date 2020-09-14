@@ -22,7 +22,7 @@ public final class MainForm extends BaseView {
   private JDesktopPane desktopPane;
 
   public MainForm() {
-    super("BCA Learning Institute", Boolean.TRUE);
+    super("Sweebook Library", Boolean.TRUE);
   }
 
   @Override
