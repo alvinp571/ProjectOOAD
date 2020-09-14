@@ -16,4 +16,7 @@ public class RoleHandler {
 		return theRoles;
 	}
 	
+	public Role getByName(String name) {
+		return new Role().getByName(name);
+	}
 }

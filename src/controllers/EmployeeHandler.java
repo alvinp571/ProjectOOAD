@@ -1,36 +1,22 @@
 package controllers;
 
 import java.util.HashMap;
+
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 import components.Message;
 import models.Employee;
 import models.User;
-import views.CreateEmployee;
-import views.ViewEmployee;
+import views.ManageEmployeeForm;
 import views.base.BaseInternalView;
-import views.base.IView;
 
 public class EmployeeHandler {
 	
 	Employee employee = new Employee();
 	
-	public IView showCreateEmployeeForm() {
-		return new CreateEmployee();
-	}
-	
-	public BaseInternalView showViewEmployeeForm() {
-		return new ViewEmployee();
-	}
-	
-	public Boolean testSalary(String salary) {
-		try {
-			Integer.parseInt(salary);
-			return true;
-		} catch (NumberFormatException e) {
-			return false;
-		}
+	public BaseInternalView showManageEmployeeForm() {
+		return new ManageEmployeeForm();
 	}
 	
 	public List<Employee> getAll(){
@@ -128,8 +114,13 @@ public class EmployeeHandler {
 			}
 		}
 		
+		if(!inputs.get("gender").equals("Male") && !inputs.get("gender").equals("Female")) {
+			Message.error("Gender should be Male or Female !");
+			return false;
+		}
+		
 		if(!testSalary(inputs.get("salary"))) {
-			Message.error("salary must be a number !");
+			Message.error("Salary must be a number !");
 			return false;
 		}
 		
@@ -140,6 +131,15 @@ public class EmployeeHandler {
 		}
 		
 		return true;
+	}
+	
+	public Boolean testSalary(String salary) {
+		try {
+			Integer.parseInt(salary);
+			return true;
+		} catch (NumberFormatException e) {
+			return false;
+		}
 	}
 	
 }

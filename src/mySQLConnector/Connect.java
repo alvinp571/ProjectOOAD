@@ -9,7 +9,7 @@ public class Connect {
 	
 	private String username = "root";
 	private String password = "";
-	private String database= "cobasweebookdao";
+	private String database= "sweebookdao";
 	private String host = "localhost:3306";
 	private String connection = String.format("jdbc:mysql://%s/%s",host,database);
 	

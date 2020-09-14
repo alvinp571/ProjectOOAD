@@ -121,7 +121,7 @@ public final class AdministratorView extends BaseView {
     	        @Override
     	        public void actionPerformed(ActionEvent e) {
 					if(viewMembership == null || viewMembership.isClosed()) {
-    	        		viewMembership = new MemberHandler().showMembershipForm();
+    	        		viewMembership = new MemberHandler().showViewMembershipForm();
     	        		desktopPane.add(viewMembership);
     	        		viewMembership.showForm();
     	        	}

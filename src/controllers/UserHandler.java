@@ -30,4 +30,8 @@ public class UserHandler {
 		}
 	}
 	
+	public User getByUsername(String username) {
+		return new User().getbyUserName(username);
+	}
+	
 }

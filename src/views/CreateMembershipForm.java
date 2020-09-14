@@ -3,6 +3,9 @@ package views;
 import components.LabelTitle;
 
 import controllers.AuthController;
+import controllers.MemberHandler;
+import models.Member;
+
 import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -17,7 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import views.base.BaseView;
 
-public final class RegisterForm extends BaseView {
+public final class CreateMembershipForm extends BaseView {
 
   private static final long serialVersionUID = 1L;
 
@@ -27,7 +30,10 @@ public final class RegisterForm extends BaseView {
   private JPasswordField txtPassword, txtConfirmPassword;
   private JButton btnRegister, btnClose;
 
-  public RegisterForm() {
+  private MemberHandler memberHandler = new MemberHandler();
+  private AuthController authController = new AuthController();
+  
+  public CreateMembershipForm() {
     super("Register Form", 350, 325);
   }
 
@@ -105,10 +111,11 @@ public final class RegisterForm extends BaseView {
             inputs.put("gender", txtGender.getText());
             inputs.put("address", txtAddress.getText());
             
-            AuthController authControllers = new AuthController();
-            if(authControllers.register(inputs)) {
-          	  authControllers.showLoginForm().showForm();
-          	  dispose();
+            Member member = new Member();
+            member = memberHandler.CreateMembership(inputs);
+            if(member!=null) {
+            	authController.showLoginForm().showForm();
+            	dispose();
             }
             
         }
@@ -122,8 +129,7 @@ public final class RegisterForm extends BaseView {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-          AuthController authControllers = new AuthController();
-          authControllers.showLoginForm().showForm();
+          authController.showLoginForm().showForm();
           dispose();
         }
       }

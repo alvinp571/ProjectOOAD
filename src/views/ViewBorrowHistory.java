@@ -3,6 +3,7 @@ package views;
 import components.ButtonInternalClose;
 
 
+
 import components.LabelTitle;
 import components.Message;
 import components.PanelForm;
@@ -26,7 +27,6 @@ import java.util.List;
 import java.util.Vector;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.JDesktopPane;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;

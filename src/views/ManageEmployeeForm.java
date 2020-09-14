@@ -164,6 +164,7 @@
 package views;
 
 import components.ButtonInternalClose;
+
 import components.LabelTitle;
 import components.Message;
 import components.PanelForm;
@@ -181,25 +182,18 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 import javax.swing.AbstractAction;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.event.MouseInputAdapter;
 import views.base.BaseInternalView;
 
-/**
- * Manage Course Form
- *
- * @author kevinsudut <kevinsuryaw@gmail.com>
- */
-public final class ViewEmployee extends BaseInternalView {
+public final class ManageEmployeeForm extends BaseInternalView {
   /**
    *
    */
@@ -213,16 +207,14 @@ public final class ViewEmployee extends BaseInternalView {
   private JLabel lblUpdateName;
   private JLabel lblDeleteEmployee;
   private JLabel lblSelectUpdateEmployee, lblSelectDeleteEmployee;
-  private JTextField txtInsertName, txtInsertUsername,txtInsertSalary,txtInsertRole;
-  private JRadioButton rbInsertMaleGender,rbInsertFemaleGender;
-  private ButtonGroup bg1;
-  private JComboBox<String> cbInsertGender;
-  private JButton btnInsert, btnUpdate, btnDelete;
+  private JTextField txtInsertName, txtInsertUsername,txtInsertSalary;
+  private JComboBox<String> cbInsertGender,cbInsertRole;
+  private JButton btnAdd, btnAccept, btnFired;
   private ButtonInternalClose close;
 
   private EmployeeHandler employeeHandler = new EmployeeHandler();
   
-  public ViewEmployee() {
+  public ManageEmployeeForm() {
     super("View Employe", 1000, 350);
   }
 
@@ -259,13 +251,19 @@ public final class ViewEmployee extends BaseInternalView {
     lblInsertGender = new JLabel("Employee Gender");
     txtInsertUsername = new JTextField();
     txtInsertName = new JTextField();
-    txtInsertRole = new JTextField();
+//    txtInsertRole = new JTextField();
     txtInsertSalary = new JTextField();
-    rbInsertMaleGender = new JRadioButton("Male");
-    rbInsertFemaleGender = new JRadioButton("Female");
-    bg1 = new ButtonGroup();
-    bg1.add(rbInsertMaleGender);
-    bg1.add(rbInsertFemaleGender);
+    
+    cbInsertRole =
+    	      new JComboBox<>(
+    	        new String[] {
+    	          "Choose Role",
+    	          "Manager",
+    	          "Human Capital",
+    	          "Administrator",
+    	          "Purchasing"
+    	        }
+    	      );
     
     cbInsertGender =
       new JComboBox<>(
@@ -275,14 +273,14 @@ public final class ViewEmployee extends BaseInternalView {
           "Female",
         }
       );
-    btnInsert = new JButton("Add Employee");
+    btnAdd = new JButton("Add Employee");
 
     Component[][] insert = {
-      new Component[] { lblInsertName, lblInsertUsername, lblInsertRole,lblInsertSalary,lblInsertGender },
-      new Component[] { txtInsertName, txtInsertUsername,txtInsertRole,txtInsertSalary,cbInsertGender},
+      new Component[] { lblInsertName, lblInsertUsername,lblInsertSalary,lblInsertRole,lblInsertGender },
+      new Component[] { txtInsertName, txtInsertUsername,txtInsertSalary,cbInsertRole,cbInsertGender},
     };
 
-    panelAdd = new PanelForm(insert, btnInsert, new Dimension(350, 350));
+    panelAdd = new PanelForm(insert, btnAdd, new Dimension(350, 350));
 
     /**
      * Initialize Component for Update Form
@@ -290,15 +288,15 @@ public final class ViewEmployee extends BaseInternalView {
 
     lblUpdateName = new JLabel("Employee Name");
     lblSelectUpdateEmployee = new JLabel("Please Choose Employee");
-    btnUpdate = new JButton("Accept Employee");
-    btnUpdate.setEnabled(Boolean.FALSE);
+    btnAccept = new JButton("Accept Employee");
+    btnAccept.setEnabled(Boolean.FALSE);
 
     Component[][] update = {
       new Component[] { lblUpdateName},
       new Component[] { lblSelectUpdateEmployee},
     };
 
-    panelAccept = new PanelForm(update, btnUpdate, new Dimension(350, 350));
+    panelAccept = new PanelForm(update, btnAccept, new Dimension(350, 350));
 
     /**
      * Initialize Component for Delete Form
@@ -306,15 +304,14 @@ public final class ViewEmployee extends BaseInternalView {
 
     lblDeleteEmployee = new JLabel("Fired Employee");
     lblSelectDeleteEmployee = new JLabel("Please Choose Employee");
-    btnDelete = new JButton("Fired Employee");
-    btnDelete.setEnabled(Boolean.FALSE);
+    btnFired = new JButton("Fired Employee");
 
     Component[][] delete = {
       new Component[] { lblDeleteEmployee},
       new Component[] { lblSelectDeleteEmployee},
     };
 
-    panelFired = new PanelForm(delete, btnDelete, new Dimension(350, 350));
+    panelFired = new PanelForm(delete, btnFired, new Dimension(350, 350));
     
     close = new ButtonInternalClose();
   }
@@ -362,15 +359,15 @@ private Vector<Object> addRow(Employee e) {
           
           int row = table.getSelectedRow();
           lblSelectUpdateEmployee.setText(table.getValueAt(row,0));
-          btnUpdate.setEnabled(true);
+          btnAccept.setEnabled(true);
           
           lblSelectDeleteEmployee.setText(table.getValueAt(row,0));
-          btnDelete.setEnabled(true);
+          btnFired.setEnabled(true);
         }
       }
     );
 
-    btnInsert.addActionListener(
+    btnAdd.addActionListener(
       new AbstractAction() {
         /**
          *
@@ -382,8 +379,8 @@ private Vector<Object> addRow(Employee e) {
         	HashMap<String,String> inputs = new HashMap<String, String>();
         	inputs.put("name",txtInsertName.getText());
         	inputs.put("username",txtInsertUsername.getText());
-        	inputs.put("role",txtInsertRole.getText());
         	inputs.put("salary",txtInsertSalary.getText());
+        	inputs.put("role",cbInsertRole.getSelectedItem().toString());
         	inputs.put("gender",cbInsertGender.getSelectedItem().toString());
         	
         	Employee employee = new Employee();
@@ -397,8 +394,8 @@ private Vector<Object> addRow(Employee e) {
         		table.addNewRow(addRow(employee));
         		txtInsertName.setText("");
         		txtInsertUsername.setText("");
-        		txtInsertRole.setText("");
         		txtInsertSalary.setText("");
+        		cbInsertRole.setSelectedIndex(0);;
         		cbInsertGender.setSelectedIndex(0);
         		Message.success("Success insert a new Employee");
         	}
@@ -406,7 +403,7 @@ private Vector<Object> addRow(Employee e) {
       }
     );
 
-    btnUpdate.addActionListener(
+    btnAccept.addActionListener(
       new AbstractAction() {
         /**
          *
@@ -433,7 +430,7 @@ private Vector<Object> addRow(Employee e) {
       }
     );
 
-    btnDelete.addActionListener(
+    btnFired.addActionListener(
       new AbstractAction() {
         /**
          *
@@ -463,9 +460,9 @@ private Vector<Object> addRow(Employee e) {
   
   private void refreshForm() {
 	  	lblSelectUpdateEmployee.setText("Please Choose Employee");
-	  	btnUpdate.setEnabled(false);
+	  	btnAccept.setEnabled(false);
 	  	
 		lblSelectDeleteEmployee.setText("Please Choose Employee Code");
-		btnDelete.setEnabled(false);
+		btnFired.setEnabled(false);
   }
 }

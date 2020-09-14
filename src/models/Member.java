@@ -37,13 +37,14 @@ public class Member {
 		return theMembers; 
 	}
 	
+	
 	public Member(String user_id, String address) {
 		super();
 		this.user_id = user_id;
 		this.address = address;
 	}
 
-	public Member createMembership() {
+	public Member insert() {
 		String query = String.format("INSERT INTO members(user_id,address) VALUE('%s','%s')",user_id,address);
 		connect.executeUpdate(query);
 		return this;

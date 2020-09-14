@@ -1,6 +1,7 @@
 package views;
 
 import java.awt.Graphics;
+
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.io.File;
@@ -13,7 +14,6 @@ import javax.swing.JMenuItem;
 
 import controllers.AuthController;
 import controllers.BookHandler;
-import controllers.BorrowBookHandler;
 import controllers.BorrowTransactionHandler;
 import views.base.BaseInternalView;
 import views.base.BaseView;

@@ -24,7 +24,7 @@ public final class HumanCapitalView extends BaseView {
   private JMenuItem miLogout, miViewEmployees;
   private JDesktopPane desktopPane;
   
-  private ViewEmployee viewEmployee;
+  private ManageEmployeeForm viewEmployee;
 
   public HumanCapitalView() {
     super("Human and Resource Staff", Boolean.TRUE);
@@ -96,7 +96,7 @@ public final class HumanCapitalView extends BaseView {
         @Override
         public void actionPerformed(ActionEvent e) {
         	if(viewEmployee == null || viewEmployee.isClosed()) {
-        		viewEmployee = new ViewEmployee();
+        		viewEmployee = new ManageEmployeeForm();
         		desktopPane.add(viewEmployee);
         		viewEmployee.showForm();
         	}

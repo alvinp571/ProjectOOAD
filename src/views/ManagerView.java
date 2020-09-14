@@ -122,7 +122,7 @@ public final class ManagerView extends BaseView {
     	        @Override
     	        public void actionPerformed(ActionEvent e) {
     	        	if(viewEmployee == null || viewEmployee.isClosed()) {
-    	        		viewEmployee = new EmployeeHandler().showViewEmployeeForm();
+    	        		viewEmployee = new EmployeeHandler().showManageEmployeeForm();
     	        		desktopPane.add(viewEmployee);
     	        		viewEmployee.showForm();
     	        	}
@@ -138,7 +138,7 @@ public final class ManagerView extends BaseView {
     	        @Override
     	        public void actionPerformed(ActionEvent e) {
     	        	if(viewMembership == null || viewMembership.isClosed()) {
-    	        		viewMembership = new MemberHandler().showMembershipForm();
+    	        		viewMembership = new MemberHandler().showViewMembershipForm();
     	        		desktopPane.add(viewMembership);
     	        		viewMembership.showForm();
     	        	}
