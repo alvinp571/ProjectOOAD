@@ -1,11 +1,11 @@
 package controllers;
 
 import java.text.SimpleDateFormat;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import helper.Session;
-import models.Book;
 import models.Borrow;
 import models.BorrowItem;
 import views.ViewBorrowHistory;
@@ -16,7 +16,6 @@ public class BorrowTransactionHandler {
 	
 	private Borrow borrow = new Borrow();
 	private BorrowItem borrowItem = new BorrowItem();
-	private Book book = new Book();
 	
 	public BaseInternalView showBorrowForm() {
 		return new ViewPendingBorrowBook();

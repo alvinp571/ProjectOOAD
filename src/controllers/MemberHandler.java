@@ -63,7 +63,7 @@ public class MemberHandler {
 		}
 		
 		//validasi gender harus diisi male atau female
-		if(!inputs.get("gender").equals("male")&&!inputs.get("gender").equals("female")) {
+		if(!inputs.get("gender").equals("Male")&&!inputs.get("gender").equals("Female")) {
 			Message.error("Genders must be filled by male or female!");
 			return false;
 		}

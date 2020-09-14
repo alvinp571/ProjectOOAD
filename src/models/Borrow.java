@@ -108,6 +108,35 @@ public class Borrow {
 		return bookBorrows;
 	}
 	
+	public boolean isBookStillBorrowing(String userId,String bookId) {
+		String query = String.format("SELECT * FROM borrows b JOIN borrow_items bi ON b.id = bi.borrow_id "
+				+ "WHERE b.member_id = '%s' AND bi.return_timestamp IS NULL AND bi.book_id = '%s'",userId,bookId);
+		ResultSet rs = connect.executeQuery(query);
+		try {
+			if(rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
+	public int getCountBookStillBorrowing(String userId) {
+		String query = String.format("SELECT * FROM borrows b JOIN borrow_items bi ON b.id = bi.borrow_id "
+				+ "WHERE b.member_id = '%s' AND bi.return_timestamp IS NOT NULL",userId);
+		ResultSet rs = connect.executeQuery(query);
+		int countBook = 0;
+		try {
+			while(rs.next()) {
+				countBook++;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return countBook;
+	}
+	
 	public String getId() {
 		return id;
 	}

@@ -57,6 +57,11 @@ public class BorrowBookHandler {
 		}
 		
 		Borrow borrow = new Borrow(Session.user.getId(),"Pending");
+		if(carts.getCart().size()  + borrow.getCountBookStillBorrowing(Session.user.getId()) >= 10) {
+			Message.error("You can't borrow more than 10 book !");
+			return false;
+		}
+		
 		borrow.insert();
 		
 		List<Book> theBooks = getCart();
